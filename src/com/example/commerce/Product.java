@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**개별 상품 정보*/
-public class Product {
-    List<Product> products = new ArrayList<>();
+public enum Product {
+    NAME,
+    PRICE,
+    DESCRIPTION,
+    QUANTITY;
+
+    Product(String name, int price, String description, int quantity) {}
 }
