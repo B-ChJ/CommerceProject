@@ -30,11 +30,27 @@ public class Product {
     }
 
     // 3. 기능
-    public void getProducts() {
+    public String getName() {
+        return name;
     }
-    public List<Product> setProducts(String name, int price, String description, int quantity) {
+    public String getDescription() {
+        return description;
+    }
+    public int getPrice() {
+        return price;
+    }
+    public int getQuantity() {
+        return quantity;
+    }
+
+    @Override
+    public String toString() {
+        String str = name + " | " + price + "원 | " + description + " | " + quantity;
+        return str;
+    }
+
+    public void setProducts(String name, int price, String description, int quantity) {
         List<Product> products = new ArrayList<>();
         products.add(new Product(name, price, description, quantity));
-        return products;
     }
 }
