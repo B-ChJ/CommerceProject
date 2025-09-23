@@ -23,8 +23,7 @@ public class Product {
     }
 
     public void getProductInfo(int index) {
-        System.out.println((index+1) + ". "
-                + products.get(index) + " | "
+        System.out.println(products.get(index) + " | "
                 + products.get(index+1) + "원 | "
                 + products.get(index+2));
     }
