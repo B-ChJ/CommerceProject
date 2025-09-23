@@ -1,5 +1,6 @@
 package com.example.commerce;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,22 +14,31 @@ import java.util.List;
  */
 public class Product {
     // 1. 속성
-    private final List<String> products =  new ArrayList<>();
+    String name;
+    String description;
+    int price;
+    int quantity;
 
     // 2. 생성자
+    public Product(String name, String description, int price, int quantity) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.quantity = quantity;
+    }
 
     // 3. 기능
     public void addProducts(String name, String price, String description, String quantity) {
-        Collections.addAll(products, name, price, description, quantity);
+
     }
+
+    // 출력되는 형태를 "상품명 | 가격 | 상품설명" 방식으로 고정한다.
 @Override
 public String toString() {
-        String str = String.join(" | ", products);
+        DecimalFormat df = new DecimalFormat("###,###");
+        String str = name + " | " + df.format(price) + "원 | " + description;
         return str;
 }
-    public List<String> getProducts() {
-        return products;
-    }
 
 //    public void getProductInfo(int index) {
 //        System.out.println(products.get(index) + " | "
@@ -36,7 +46,4 @@ public String toString() {
 //                + products.get(index+2));
 //    }
 
-    public int size() {
-        return products.size();
-    }
 }
