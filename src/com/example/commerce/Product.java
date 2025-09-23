@@ -8,7 +8,8 @@ import java.util.List;
  * @param name 상품명
  * @param price 상품의 가격
  * @param description 상품 설명
- * @param quantity 재고 수량*/
+ * @param quantity 재고 수량
+ */
 public class Product {
     // 1. 속성
     String name;
@@ -18,6 +19,10 @@ public class Product {
 
     // 2. 생성자
     Product(String name, int price, String description, int quantity) {
+        if(name == null || price < 0 || quantity < 0) {
+            throw new IllegalArgumentException("적절하지 않은 입력입니다. 다시 정보를 확인해 주세요.");
+        }
+
         this.name = name;
         this.price = price;
         this.description = description;
