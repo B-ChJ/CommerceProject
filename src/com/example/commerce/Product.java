@@ -21,12 +21,20 @@ public class Product {
     public void addProducts(String name, String price, String description, String quantity) {
         Collections.addAll(products, name, price, description, quantity);
     }
-
-    public void getProductInfo(int index) {
-        System.out.println(products.get(index) + " | "
-                + products.get(index+1) + "원 | "
-                + products.get(index+2));
+@Override
+public String toString() {
+        String str = String.join(" | ", products);
+        return str;
+}
+    public List<String> getProducts() {
+        return products;
     }
+
+//    public void getProductInfo(int index) {
+//        System.out.println(products.get(index) + " | "
+//                + products.get(index+1) + "원 | "
+//                + products.get(index+2));
+//    }
 
     public int size() {
         return products.size();
