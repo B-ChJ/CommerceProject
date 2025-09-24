@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 /**프로그램 비즈니스 로직
  * 상품을 관리
@@ -20,15 +21,29 @@ public class CommerceSystem {
 
         //do-while 반복문으로 일단 상품 목록 1회 출력 후 조건문 check
         do {
+            //메인에서 조회할 카테고리를 고르도록 카테고리 이름을 출력
             System.out.println("[ 실시간 커머스 플랫폼 메인 ]");
             for (Category c : Category.values()) {
                 System.out.println((c.ordinal()+1) + ". " + c.getCategoryName());
             }
             System.out.println("0. 종료 | 프로그램 종료");
             int numCategory = input.nextInt();
-            switch (numCategory) {
-                case 0: break;
-                case 1:
+            if(numCategory == 0){ break; }
+            else {
+                switch (numCategory) {
+                    case 1:
+                        this.getProductInfo(Category.ELECTRONICS);
+                        break;
+                        case 2:
+                            this.getProductInfo(Category.CLOTHES);
+                            break;
+                            case 3:
+                                this.getProductInfo(Category.FOODS);
+                                break;
+                    default: throw new IllegalArgumentException("유효하지 않은 카테고리 번호입니다.");
+                }
+                System.out.println("0. 뒤로가기");
+
             }
 
             System.out.println("0. 종료 | 프로그램 종료\n다시 전체 상품 목록을 조회하시겠습니까? (yes/0)");
@@ -37,13 +52,9 @@ public class CommerceSystem {
 
         System.out.println("입력을 종료합니다.");
     }
-    //상품 목록 중 한 상품의 정보와 재고 수량을 조회하는 메서드
-//    public List<Product> getProductInfo(int index) {
-//        if(index==0) {
-//            throw new IllegalArgumentException("상품 번호는 1번부터 시작합니다.");
-//        }
-//        else System.out.println((index-1) + ". " + category.getCategoryList().get(index-1) + " | " + category.getCategoryList().get(index-1).quantity + "개");
-//        return category.getCategoryList();
-//    }
-
+    //카테고리 목록의 상품 정보를 조회하는 메서드
+    public void getProductInfo(Category category) {
+            String oneLine = (category.ordinal()+1) + ". " + category.getCategoryList().stream().map(product -> product.toString()).collect(Collectors.joining("\n"));
+            System.out.println(oneLine);
+        }
 }

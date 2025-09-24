@@ -34,7 +34,7 @@ public class Product {
     @Override
     public String toString() {
         DecimalFormat df = new DecimalFormat("###,###");
-        String str = name + " | " + df.format(price) + "원 | " + description;
+        String str = String.format("%s | %s원 | %s", name, df.format(price), description);
         return str;
     }
 }

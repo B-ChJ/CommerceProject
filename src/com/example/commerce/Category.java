@@ -30,10 +30,13 @@ public enum Category {
     }
 
     //3. 기능
-//Product 객체들을 반환하는 getter 메서드
-    public List<Product> getCategoryList(String categoryName) {
-        System.out.println(Category.valueOf(categoryName));
+//Category의 Product 객체들을 반환하는 getter 메서드
+    public List<Product> getCategoryList() {
         return products;
+    }
+    //Product 객체를 세부적으로 출력하는 메서드
+    public static void printProducts() {
+        for (int i = 0; i < ELECTRONICS.products.size(); i++) {}
     }
     //카테고리 이름을 반환하는 getter 메서드
     public String getCategoryName() {
