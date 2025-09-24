@@ -27,8 +27,8 @@ public class Main {
             if(i==0) {
                 break;
             }
-            else products.get(i-1);
-        }while(!input.next().equals("0"));
+            else System.out.println((i-1) + ". " + products.get(i-1) + " | " + products.get(i-1).quantity + "개");
+        }while(!input.nextLine().equals("0"));
         input.close();
     }
 }
