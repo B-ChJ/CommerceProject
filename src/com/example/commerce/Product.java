@@ -26,24 +26,14 @@ public class Product {
         this.price = price;
         this.quantity = quantity;
     }
-
     // 3. 기능
-    public void addProducts(String name, String price, String description, String quantity) {
 
-    }
 
     // 출력되는 형태를 "상품명 | 가격 | 상품설명" 방식으로 고정한다.
-@Override
-public String toString() {
+    @Override
+    public String toString() {
         DecimalFormat df = new DecimalFormat("###,###");
         String str = name + " | " + df.format(price) + "원 | " + description;
         return str;
-}
-
-//    public void getProductInfo(int index) {
-//        System.out.println(products.get(index) + " | "
-//                + products.get(index+1) + "원 | "
-//                + products.get(index+2));
-//    }
-
+    }
 }
