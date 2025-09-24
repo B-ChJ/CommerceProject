@@ -22,11 +22,6 @@ public class CommerceSystem {
 
     public void start() {
         Scanner input = new Scanner(System.in);
-        //초기 상품 등록
-        addProduct(new Product("Galaxy S25", "최신 안드로이드 스마트폰", 1200000, 100));
-        addProduct(new Product("iPhone 16", "Apple의 최신 스마트폰", 1350000, 120));
-        addProduct(new Product("MacBook Pro", "M3 칩셋이 탑재된 노트북", 2400000, 70));
-        addProduct(new Product("AirPods Pro", "노이즈 캔슬링 무선 이어폰", 350000, 56));
 
         //do-while 반복문으로 일단 상품 목록 1회 출력 후 조건문 check
         do {
