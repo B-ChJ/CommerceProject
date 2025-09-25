@@ -29,8 +29,8 @@ public class Cart {
         int total = 0;
         System.out.println("[ 장바구니 내역 ]");
         for(Product product : cartProducts) {
-            System.out.println(product.toString());
-            total += product.getPrice();
+            System.out.println(product.toString() + " | 수량: " + product.getCount() + "개");
+            total = total + product.getPrice()*product.getCount();
         }
         System.out.println("[ 총 주문 금액 ]");
         System.out.println(total+"원");
