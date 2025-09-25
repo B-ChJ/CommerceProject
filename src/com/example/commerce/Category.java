@@ -34,9 +34,12 @@ public enum Category {
     public List<Product> getCategoryList() {
         return products;
     }
-    //Product 객체를 세부적으로 출력하는 메서드
-    public static void printProducts() {
-        for (int i = 0; i < ELECTRONICS.products.size(); i++) {}
+    //Product 객체를 목록으로 출력하는 메서드
+    public static void printProducts(Category category) {
+        String[] str = category.products.stream().map(product -> product.toString()).toArray(String[]::new);
+        for (int i=0; i<category.products.size(); i++) {
+            System.out.println((i+1) + ". " + str[i]);
+        }
     }
     //카테고리 이름을 반환하는 getter 메서드
     public String getCategoryName() {

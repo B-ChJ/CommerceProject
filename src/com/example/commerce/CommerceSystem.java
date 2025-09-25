@@ -52,9 +52,4 @@ public class CommerceSystem {
 
         System.out.println("입력을 종료합니다.");
     }
-    //카테고리 목록의 상품 정보를 조회하는 메서드
-    public void getProductInfo(Category category) {
-            String oneLine = (category.ordinal()+1) + ". " + category.getCategoryList().stream().map(product -> product.toString()).collect(Collectors.joining("\n"));
-            System.out.println(oneLine);
-        }
 }
