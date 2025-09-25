@@ -12,6 +12,9 @@ public class CommerceSystem {
     //프로그램 비즈니스를 실행하는 start() 메서드
     public void start() {
         Scanner input = new Scanner(System.in);
+        Product choiceProduct;
+        int choice;
+        Cart cart = new Cart();
 
         //do-while 반복문으로 일단 상품 목록 1회 출력 후 조건문 check
         do {
@@ -21,32 +24,36 @@ public class CommerceSystem {
                 System.out.println((c.ordinal()+1) + ". " + c.getCategoryName());
             }
             System.out.println("0. 종료 | 프로그램 종료");
+            if(!cart.getCart().isEmpty()){
+                System.out.println("\n[ 주문 관리 ]");
+                System.out.println("4. 장바구니 확인 | 장바구니를 확인 후 주문합니다.");
+                System.out.println("5. 주문 취소 | 진행 중인 주문을 취소합니다.");
+            }
             int numCategory = input.nextInt();
-            if(numCategory == 0){ break; }
-            else {
-                Product choiceProduct;
-                int choice;
+            if(numCategory == 0){ break; } //프로그램 종료
+            //카테고리 내 상품 정보 조회
+            else if(numCategory < 4) {
                 switch (numCategory) {
                     case 1:
                         Category.printProducts(Category.ELECTRONICS);
                         choiceProduct = Category.printProductQuantity(Category.ELECTRONICS, input.nextInt());
                         System.out.println("위 상품을 장바구니에 추가하시겠습니까?\n1. 확인       2. 취소");
                         choice = input.nextInt();
-                        this.checkChoice(choiceProduct, choice);
+                        this.checkChoice(cart, choiceProduct, choice);
                         break;
                     case 2:
                         Category.printProducts(Category.CLOTHES);
                         choiceProduct = Category.printProductQuantity(Category.CLOTHES, input.nextInt());
                         System.out.println("위 상품을 장바구니에 추가하시겠습니까?\n1. 확인       2. 취소");
                         choice = input.nextInt();
-                        this.checkChoice(choiceProduct, choice);
+                        this.checkChoice(cart, choiceProduct, choice);
                         break;
                     case 3:
                         Category.printProducts(Category.FOODS);
                         choiceProduct = Category.printProductQuantity(Category.FOODS, input.nextInt());
                         System.out.println("위 상품을 장바구니에 추가하시겠습니까?\n1. 확인       2. 취소");
                         choice = input.nextInt();
-                        this.checkChoice(choiceProduct, choice);
+                        this.checkChoice(cart, choiceProduct, choice);
                         break;
                     default: throw new IllegalArgumentException("유효하지 않은 카테고리 번호입니다.");
                 }
@@ -55,19 +62,40 @@ public class CommerceSystem {
                 //while문이 종료되지 않도록 입력값 임의의 int 값으로 변경
                 if(num==0){ num = 10; }
             }
+            else {
+                switch (numCategory) {
+                    case 4:
+                        System.out.println("아래와 같이 주문하시겠습니까?");
+                        int total = cart.printCart();
+                        System.out.println("1. 주문 확정     2. 메인으로 돌아가기");
+                        choice = input.nextInt();
+                        switch (choice) {
+                            case 1:
+
+                                System.out.println("주문이 완료되었습니다! 총 금액: " + total + "원");
+                                break;
+                            case 2: break;
+                            default: throw new IllegalArgumentException("1 또는 2를 입력해 주세요.");
+                        }
+                }
+            }
         }while(!input.nextLine().equals("0"));
         input.close();
 
         System.out.println("입력을 종료합니다.");
     }
-    public void checkChoice(Product product, int choice) {
+    public void checkChoice(Cart cart, Product product, int choice) {
         switch (choice) {
-            case 1: Cart cart = new Cart();
+            case 1:
                 cart.setCart(product);
-                System.out.println(product.name + "이(가) 장바구니에 추가되었습니다.");
+                System.out.println(product.getName() + "이(가) 장바구니에 추가되었습니다.");
                 break;
             case 2: break;
             default: throw new IllegalArgumentException("1 또는 2를 입력해 주세요.");
         }
+    }
+    public void manageOrder() {
+
+
     }
 }

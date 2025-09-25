@@ -46,13 +46,17 @@ public enum Category {
         if(i > category.products.size()) {
             throw new IllegalArgumentException("존재하지 않는 상품 번호입니다.");
         }
-        System.out.println("선택한 상품: " + category.products.get(i-1).toString() + " | 재고수량: " + category.products.get(i-1).quantity + "개");
+        System.out.println("선택한 상품: " + category.products.get(i-1).toString() + " | 재고수량: " + category.products.get(i-1).getQuantity() + "개");
         return category.products.get(i-1);
     }
-    //카트에 담긴 상품의 재고를 -1하는 메서드
+    //주문 완료 후 카트에 담긴 상품의 개수만큼 재고수량에서 빼는 메서드
 
     //카테고리 이름을 반환하는 getter 메서드
     public String getCategoryName() {
         return categoryName;
+    }
+    //Product의 count 개수를 수정하는 setter 메서드
+    public void setProductCount(Product p) {
+        this.products.set(products.indexOf(p), p);
     }
 }

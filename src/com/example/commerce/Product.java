@@ -14,10 +14,12 @@ import java.util.List;
  */
 public class Product {
     // 1. 속성
-    String name;
-    String description;
-    int price;
-    int quantity;
+    private String name;
+    private String description;
+    private int price;
+    private int quantity;
+    private int count=0;
+
 
     // 2. 생성자
     public Product(String name, String description, int price, int quantity) {
@@ -28,7 +30,22 @@ public class Product {
     }
 
     // 3. 기능
-
+    //Getter 메서드
+    public String getName() {
+        return name;
+    }
+    public int getPrice() {
+        return price;
+    }
+    public int getQuantity() {
+        return quantity;
+    }
+    public int getCount() {
+        return count;
+    }
+    public void setCount(int count) {
+        this.count = count;
+    }
 
     // 출력되는 형태를 "상품명 | 가격 | 상품설명" 방식으로 고정한다.
     @Override
