@@ -33,12 +33,15 @@ public class CommerceSystem {
                 switch (numCategory) {
                     case 1:
                         Category.printProducts(Category.ELECTRONICS);
+                        Category.printProductQuantity(Category.ELECTRONICS, input.nextInt());
                         break;
                     case 2:
                         Category.printProducts(Category.CLOTHES);
+                        Category.printProductQuantity(Category.CLOTHES, input.nextInt());
                         break;
                     case 3:
                         Category.printProducts(Category.FOODS);
+                        Category.printProductQuantity(Category.FOODS, input.nextInt());
                         break;
                     default: throw new IllegalArgumentException("유효하지 않은 카테고리 번호입니다.");
                 }
