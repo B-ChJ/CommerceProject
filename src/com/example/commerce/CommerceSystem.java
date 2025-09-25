@@ -76,7 +76,7 @@ public class CommerceSystem {
                             case 1:
                                 System.out.println("주문이 완료되었습니다! 총 금액: " + total + "원");
                                 cart.subProductQuantity();
-                                Category.setProduct(cart);
+                                Category.setProductQuantity(cart);
                                 cart.removeAllProduct();
                                 break;
                             case 2: break;

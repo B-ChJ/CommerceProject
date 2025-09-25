@@ -1,11 +1,17 @@
 package com.example.commerce;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Administrator {
     //1. 속성
     private final String password = "admin123"; //비밀번호
 
+    //3. 기능
+    public static void adminMode() {
+
+    }
+    //새로운 상품을 추가하는 과정을 수행하는 메서드
     public Product getNewProduct() {
         Scanner input = new Scanner(System.in);
         System.out.println("어느 카테고리에 상품을 추가하시겠습니까?");
@@ -42,5 +48,49 @@ public class Administrator {
             return null;
         }
         else throw new IllegalArgumentException("1 또는 2를 입력해 주세요.");
+    }
+    //기등록된 상품의 정보를 수정하는 메서드
+    public void getUpdateProduct() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("수정할 상품명을 입력해 주세요:");
+        String name = input.nextLine();
+        Product p = null;
+        int index = 0;
+        for (Category c : Category.values()) {
+            if (c.getCategoryList().contains(name)) {
+                p = c.getCategoryList().get(c.getCategoryList().indexOf(name));
+                index = c.getCategoryList().indexOf(p);
+            }
+        }
+        System.out.println("현재 상품 정보: " + p.toString() + " | 재고: " + p.getQuantity() + "개");
+        int beforePrice = p.getPrice();
+        String beforeDescription = p.getDescription();
+        int beforeQuantity = p.getQuantity();
+        System.out.println("\n수정할 항목을 선택해 주세요:");
+        System.out.println("1. 가격\n2. 설명\n3. 재고 수량");
+        int c = input.nextInt();
+        switch (c) {
+            case 1:
+                System.out.println("현재 가격: " + beforePrice + "원");
+                System.out.print("새로운 가격을 입력해 주세요: ");
+                p.setPrice(input.nextInt());
+                System.out.println(p.getName() + "의 가격이 " + beforePrice + "원 → " + p.getPrice() + "원으로 수정되었습니다.");
+                break;
+            case 2:
+                System.out.println("현재 상품 설명: " + beforeDescription);
+                System.out.print("새로운 상품 설명을 입력해 주세요: ");
+                p.setDescription(input.nextLine());
+                System.out.println(p.getName() + "의 상품 설명이 [ " + beforeDescription + " ] → [ " + p.getDescription() + "으로 수정되었습니다.");
+                break;
+            case 3:
+                System.out.println("현재 재고 수량: " + beforeQuantity + "개");
+                System.out.print("새로운 재고 수량을 입력해 주세요: ");
+                p.setQuantity(input.nextInt());
+                System.out.println(p.getName() + "의 재고 수량이 " + beforePrice + "개 → " + p.getPrice() + "개로 수정되었습니다.");
+                break;
+            default:
+                throw new IllegalArgumentException("유효하지 않은 선택지입니다.");
+        }
+        Category.replaceProduct(index, p);
     }
 }

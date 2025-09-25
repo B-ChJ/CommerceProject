@@ -54,7 +54,7 @@ public enum Category {
         return categoryName;
     }
     //주문 완료 후 변경된 재고수량을 갖고 있는 Cart를 Category의 Product에 반영하는 메서드
-    public static void setProduct(Cart cart) {
+    public static void setProductQuantity(Cart cart) {
         for(Product p : cart.getCart()) {
             Arrays.stream(Category.values()).map(category -> category.products.set(category.products.indexOf(p), p));
         }
@@ -67,5 +67,9 @@ public enum Category {
             case 3: FOODS.products.add(product); break;
             default: throw new ArrayIndexOutOfBoundsException(index + "은(는) 존재하지 않는 카테고리 번호입니다.");
         }
+    }
+    //상품의 상세 정보를 수정하는 메서드
+    public static void replaceProduct(int index, Product product) {
+        Product set = Category.values()[index].getCategoryList().set(index, product);
     }
 }
