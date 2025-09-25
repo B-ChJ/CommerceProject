@@ -24,19 +24,45 @@ public class CommerceSystem {
             int numCategory = input.nextInt();
             if(numCategory == 0){ break; }
             else {
+                Product choiceProduct;
+                int choice;
                 switch (numCategory) {
                     case 1:
                         Category.printProducts(Category.ELECTRONICS);
-                        Category.printProductQuantity(Category.ELECTRONICS, input.nextInt());
-                        break;
+                        choiceProduct = Category.printProductQuantity(Category.ELECTRONICS, input.nextInt());
+                        System.out.println("위 상품을 장바구니에 추가하시겠습니까?\n1. 확인       2. 취소");
+                        choice = input.nextInt();
+                        if(choice == 1) {
+                            Cart cart = new Cart();
+                            cart.setCart(choiceProduct);
+                            System.out.println(choiceProduct.name + "이(가) 장바구니에 추가되었습니다.");
+                            break;
+                        }
+                        else if (choice == 2) {break;}
                     case 2:
                         Category.printProducts(Category.CLOTHES);
-                        Category.printProductQuantity(Category.CLOTHES, input.nextInt());
-                        break;
+                        choiceProduct = Category.printProductQuantity(Category.CLOTHES, input.nextInt());
+                        System.out.println("위 상품을 장바구니에 추가하시겠습니까?\n1. 확인       2. 취소");
+                        choice = input.nextInt();
+                        if(choice == 1) {
+                            Cart cart = new Cart();
+                            cart.setCart(choiceProduct);
+                            System.out.println(choiceProduct.name + "이(가) 장바구니에 추가되었습니다.");
+                            break;
+                        }
+                        else if (choice == 2) {break;}
                     case 3:
                         Category.printProducts(Category.FOODS);
-                        Category.printProductQuantity(Category.FOODS, input.nextInt());
-                        break;
+                        choiceProduct = Category.printProductQuantity(Category.FOODS, input.nextInt());
+                        System.out.println("위 상품을 장바구니에 추가하시겠습니까?\n1. 확인       2. 취소");
+                        choice = input.nextInt();
+                        if(choice == 1) {
+                            Cart cart = new Cart();
+                            cart.setCart(choiceProduct);
+                            System.out.println(choiceProduct.name + "이(가) 장바구니에 추가되었습니다.");
+                            break;
+                        }
+                        else if (choice == 2) {break;}
                     default: throw new IllegalArgumentException("유효하지 않은 카테고리 번호입니다.");
                 }
                 System.out.println("0. 뒤로가기");

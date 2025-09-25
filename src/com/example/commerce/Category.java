@@ -41,11 +41,12 @@ public enum Category {
             System.out.println((i+1) + ". " + str[i]);
         }
     }
-    public static void printProductQuantity(Category category, int i) {
+    public static Product printProductQuantity(Category category, int i) {
         if(i > category.products.size()) {
             throw new IllegalArgumentException("존재하지 않는 상품 번호입니다.");
         }
         System.out.println("선택한 상품: " + category.products.get(i-1).toString() + " | 재고수량: " + category.products.get(i-1).quantity + "개");
+        return category.products.get(i-1);
     }
     //카테고리 이름을 반환하는 getter 메서드
     public String getCategoryName() {
