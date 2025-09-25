@@ -24,6 +24,7 @@ public class CommerceSystem {
                 System.out.println((c.ordinal()+1) + ". " + c.getCategoryName());
             }
             System.out.println("0. 종료 | 프로그램 종료");
+            System.out.println("6. 관리자 모드");
             //장바구니가 비어있으면 다음 단계로 진행
             if(!(cart.getCart() == null || cart.getCart().isEmpty())){
             //장바구니가 null이 아닐 경우 Cart 관련 동작을 보여줌
@@ -82,6 +83,7 @@ public class CommerceSystem {
                             default: throw new IllegalArgumentException("1 또는 2를 입력해 주세요.");
                         } break;
                     case 5: cart.removeAllProduct(); break;
+                    case 6: break;
                     default: throw new IllegalArgumentException("유효하지 않은 카테고리 번호입니다.");
                 }
             }

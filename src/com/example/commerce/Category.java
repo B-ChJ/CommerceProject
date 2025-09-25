@@ -59,4 +59,13 @@ public enum Category {
             Arrays.stream(Category.values()).map(category -> category.products.set(category.products.indexOf(p), p));
         }
     }
+    //각 카테고리에 새로운 상품을 추가하는 메서드
+    public static void addProduct(int index, Product product) {
+        switch (index) {
+            case 1: ELECTRONICS.products.add(product); break;
+            case 2: CLOTHES.products.add(product); break;
+            case 3: FOODS.products.add(product); break;
+            default: throw new ArrayIndexOutOfBoundsException(index + "은(는) 존재하지 않는 카테고리 번호입니다.");
+        }
+    }
 }
