@@ -1,21 +1,15 @@
 package com.example.commerce;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 /**프로그램 비즈니스 로직
  * 상품을 관리
  * 사용자의 입력값을 처리하는 클래스*/
 public class CommerceSystem {
     //1. 속성
-    //private Category category = new Category();
     //2. 생성자
     //3. 기능
-    //상품 목록 products의 값을 가져오는 메서드
-
+    //프로그램 비즈니스를 실행하는 start() 메서드
     public void start() {
         Scanner input = new Scanner(System.in);
 
@@ -47,6 +41,7 @@ public class CommerceSystem {
                 }
                 System.out.println("0. 뒤로가기");
                 int num = input.nextInt();
+                //while문이 종료되지 않도록 입력값 임의의 int 값으로 변경
                 if(num==0){ num = 10; }
             }
         }while(!input.nextLine().equals("0"));
