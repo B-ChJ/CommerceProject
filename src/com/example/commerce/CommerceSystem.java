@@ -32,37 +32,22 @@ public class CommerceSystem {
                         choiceProduct = Category.printProductQuantity(Category.ELECTRONICS, input.nextInt());
                         System.out.println("위 상품을 장바구니에 추가하시겠습니까?\n1. 확인       2. 취소");
                         choice = input.nextInt();
-                        if(choice == 1) {
-                            Cart cart = new Cart();
-                            cart.setCart(choiceProduct);
-                            System.out.println(choiceProduct.name + "이(가) 장바구니에 추가되었습니다.");
-                            break;
-                        }
-                        else if (choice == 2) {break;}
+                        this.checkChoice(choiceProduct, choice);
+                        break;
                     case 2:
                         Category.printProducts(Category.CLOTHES);
                         choiceProduct = Category.printProductQuantity(Category.CLOTHES, input.nextInt());
                         System.out.println("위 상품을 장바구니에 추가하시겠습니까?\n1. 확인       2. 취소");
                         choice = input.nextInt();
-                        if(choice == 1) {
-                            Cart cart = new Cart();
-                            cart.setCart(choiceProduct);
-                            System.out.println(choiceProduct.name + "이(가) 장바구니에 추가되었습니다.");
-                            break;
-                        }
-                        else if (choice == 2) {break;}
+                        this.checkChoice(choiceProduct, choice);
+                        break;
                     case 3:
                         Category.printProducts(Category.FOODS);
                         choiceProduct = Category.printProductQuantity(Category.FOODS, input.nextInt());
                         System.out.println("위 상품을 장바구니에 추가하시겠습니까?\n1. 확인       2. 취소");
                         choice = input.nextInt();
-                        if(choice == 1) {
-                            Cart cart = new Cart();
-                            cart.setCart(choiceProduct);
-                            System.out.println(choiceProduct.name + "이(가) 장바구니에 추가되었습니다.");
-                            break;
-                        }
-                        else if (choice == 2) {break;}
+                        this.checkChoice(choiceProduct, choice);
+                        break;
                     default: throw new IllegalArgumentException("유효하지 않은 카테고리 번호입니다.");
                 }
                 System.out.println("0. 뒤로가기");
@@ -74,5 +59,15 @@ public class CommerceSystem {
         input.close();
 
         System.out.println("입력을 종료합니다.");
+    }
+    public void checkChoice(Product product, int choice) {
+        switch (choice) {
+            case 1: Cart cart = new Cart();
+                cart.setCart(product);
+                System.out.println(product.name + "이(가) 장바구니에 추가되었습니다.");
+                break;
+            case 2: break;
+            default: throw new IllegalArgumentException("1 또는 2를 입력해 주세요.");
+        }
     }
 }

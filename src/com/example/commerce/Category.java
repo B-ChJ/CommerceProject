@@ -14,10 +14,10 @@ public enum Category {
             new Product("Shirt", "기본 하얀 와이셔츠", 10000, 489),
             new Product("T-shirt", "반팔 무지 티셔츠", 5000, 326),
             new Product("Wide-pants", "통 넓은 슬랙스 바지", 27000, 175)),
-    FOODS("음식", new Product("돼지국밥", "머릿고기, 깍두기 제공", 8500, 50),
-            new Product("베이컨 크림 파스타", "꾸덕촉촉한 크림과 짭짤한 베이컨의 조화", 13000, 85),
-            new Product("중화비빔밥", "불맛 가득 건더기 듬뿍(계란후라이는 완숙)", 11000, 61),
-            new Product("새우튀김우동", "뜨끈한 우동 위에 왕새우 튀김 2마리", 12000, 20));
+    FOODS("음식", new Product("돼지국밥", "머릿고기, 깍두기 제공", 8500, 34),
+            new Product("베이컨 크림 파스타", "꾸덕촉촉한 크림과 짭짤한 베이컨의 조화", 13000, 13),
+            new Product("중화비빔밥", "불맛 가득 건더기 듬뿍(계란후라이는 완숙)", 11000, 8),
+            new Product("새우튀김우동", "뜨끈한 우동 위에 왕새우 튀김 2마리", 12000, 3));
 
     //1. 속성
     private final String categoryName;
@@ -41,6 +41,7 @@ public enum Category {
             System.out.println((i+1) + ". " + str[i]);
         }
     }
+    //선택한 상품 정보와 재고 수량을 출력하고 해당 Product를 반환하는 메서드
     public static Product printProductQuantity(Category category, int i) {
         if(i > category.products.size()) {
             throw new IllegalArgumentException("존재하지 않는 상품 번호입니다.");
@@ -48,6 +49,8 @@ public enum Category {
         System.out.println("선택한 상품: " + category.products.get(i-1).toString() + " | 재고수량: " + category.products.get(i-1).quantity + "개");
         return category.products.get(i-1);
     }
+    //카트에 담긴 상품의 재고를 -1하는 메서드
+
     //카테고리 이름을 반환하는 getter 메서드
     public String getCategoryName() {
         return categoryName;
