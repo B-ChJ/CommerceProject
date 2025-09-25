@@ -32,21 +32,20 @@ public class CommerceSystem {
             else {
                 switch (numCategory) {
                     case 1:
-                        this.getProductInfo(Category.ELECTRONICS);
+                        Category.printProducts(Category.ELECTRONICS);
                         break;
-                        case 2:
-                            this.getProductInfo(Category.CLOTHES);
-                            break;
-                            case 3:
-                                this.getProductInfo(Category.FOODS);
-                                break;
+                    case 2:
+                        Category.printProducts(Category.CLOTHES);
+                        break;
+                    case 3:
+                        Category.printProducts(Category.FOODS);
+                        break;
                     default: throw new IllegalArgumentException("유효하지 않은 카테고리 번호입니다.");
                 }
                 System.out.println("0. 뒤로가기");
-
+                int num = input.nextInt();
+                if(num==0){ num = 10; }
             }
-
-            System.out.println("0. 종료 | 프로그램 종료\n다시 전체 상품 목록을 조회하시겠습니까? (yes/0)");
         }while(!input.nextLine().equals("0"));
         input.close();
 
