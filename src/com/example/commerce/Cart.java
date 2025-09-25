@@ -1,19 +1,20 @@
 package com.example.commerce;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Cart {
     //1. 속성
-    private List<Product> cartProducts;
+    private List<Product> cartProducts = new ArrayList<>();
 
     //2. 생성자
     //3. 기능
     //장바구니에 Product 정보를 등록하는 메서드
     public void setCart(Product product) {
         //재고가 있으면 장바구니에 상품 추가
-        int count = 0;
+        int count;
         if(product.getQuantity() > 0) {
-            if(!cartProducts.contains(product)) {
+            if((!cartProducts.contains(product))) {
                 count = product.getCount() + 1;
                 this.cartProducts.add(product);
             }
@@ -38,12 +39,18 @@ public class Cart {
     public List<Product> getCart() {
         return this.cartProducts;
     }
-
-    //장바구니의 내역을 삭제하는 메서드
-    public void removeProduct(Product product) {
-        if(this.cartProducts.contains(product)) {
-            this.cartProducts.remove(product);
+    public void subProductQuantity() {
+        for(Product p : cartProducts) {
+            int beforeQuantity = p.getQuantity();
+            this.cartProducts.get(cartProducts.indexOf(p)).setQuantity(p.getQuantity() - p.getCount());
+            int afterQuantity = this.cartProducts.get(cartProducts.indexOf(p)).getQuantity();
+            System.out.println(p.getName() + " 재고가 " + beforeQuantity + "개 → " + afterQuantity + "개로 업데이트 되었습니다.");
         }
+    }
+
+    //장바구니의 내역을 삭제(초기화)하는 메서드
+    public void removeAllProduct() {
+        this.cartProducts.clear();
     }
 
 }

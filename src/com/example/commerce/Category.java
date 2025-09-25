@@ -49,14 +49,14 @@ public enum Category {
         System.out.println("선택한 상품: " + category.products.get(i-1).toString() + " | 재고수량: " + category.products.get(i-1).getQuantity() + "개");
         return category.products.get(i-1);
     }
-    //주문 완료 후 카트에 담긴 상품의 개수만큼 재고수량에서 빼는 메서드
-
     //카테고리 이름을 반환하는 getter 메서드
     public String getCategoryName() {
         return categoryName;
     }
-    //Product의 count 개수를 수정하는 setter 메서드
-    public void setProductCount(Product p) {
-        this.products.set(products.indexOf(p), p);
+    //주문 완료 후 변경된 재고수량을 갖고 있는 Cart를 Category의 Product에 반영하는 메서드
+    public static void setProduct(Cart cart) {
+        for(Product p : cart.getCart()) {
+            Arrays.stream(Category.values()).map(category -> category.products.set(category.products.indexOf(p), p));
+        }
     }
 }

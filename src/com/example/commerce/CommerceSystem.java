@@ -24,7 +24,9 @@ public class CommerceSystem {
                 System.out.println((c.ordinal()+1) + ". " + c.getCategoryName());
             }
             System.out.println("0. 종료 | 프로그램 종료");
-            if(!cart.getCart().isEmpty()){
+            //장바구니가 비어있으면 다음 단계로 진행
+            if(!(cart.getCart() == null || cart.getCart().isEmpty())){
+            //장바구니가 null이 아닐 경우 Cart 관련 동작을 보여줌
                 System.out.println("\n[ 주문 관리 ]");
                 System.out.println("4. 장바구니 확인 | 장바구니를 확인 후 주문합니다.");
                 System.out.println("5. 주문 취소 | 진행 중인 주문을 취소합니다.");
@@ -71,12 +73,16 @@ public class CommerceSystem {
                         choice = input.nextInt();
                         switch (choice) {
                             case 1:
-
                                 System.out.println("주문이 완료되었습니다! 총 금액: " + total + "원");
+                                cart.subProductQuantity();
+                                Category.setProduct(cart);
+                                cart.removeAllProduct();
                                 break;
                             case 2: break;
                             default: throw new IllegalArgumentException("1 또는 2를 입력해 주세요.");
-                        }
+                        } break;
+                    case 5: cart.removeAllProduct(); break;
+                    default: throw new IllegalArgumentException("유효하지 않은 카테고리 번호입니다.");
                 }
             }
         }while(!input.nextLine().equals("0"));
@@ -93,9 +99,5 @@ public class CommerceSystem {
             case 2: break;
             default: throw new IllegalArgumentException("1 또는 2를 입력해 주세요.");
         }
-    }
-    public void manageOrder() {
-
-
     }
 }
