@@ -74,7 +74,41 @@ public class CommerceSystem {
                         choice = input.nextInt();
                         switch (choice) {
                             case 1:
-                                System.out.println("주문이 완료되었습니다! 총 금액: " + total + "원");
+                                int discountTotal = 0;
+                                System.out.println("고객 등급을 입력해 주세요: ");
+                                for (CustomerRank rank : CustomerRank.values()) {
+                                    System.out.println((rank.ordinal()+1) + rank.toString());
+                                }
+                                String rank = "";
+                                double discount = 0;
+                                int rankNum = input.nextInt();
+                                switch (rankNum) {
+                                    case 1:
+                                        discountTotal = (int) (total*(1-CustomerRank.BRONZE.getDiscount()));
+                                        rank = CustomerRank.BRONZE.getRank();
+                                        discount = CustomerRank.BRONZE.getDiscount();
+                                        break;
+                                    case 2:
+                                        discountTotal = (int) (total*(1-CustomerRank.SILVER.getDiscount()));
+                                        rank = CustomerRank.SILVER.getRank();
+                                        discount = CustomerRank.SILVER.getDiscount();
+                                        break;
+                                    case 3:
+                                        discountTotal = (int) (total*(1-CustomerRank.GOLD.getDiscount()));
+                                        rank = CustomerRank.GOLD.getRank();
+                                        discount = CustomerRank.GOLD.getDiscount();
+                                        break;
+                                    case 4:
+                                        discountTotal = (int) (total*(1-CustomerRank.PLATINUM.getDiscount()));
+                                        rank = CustomerRank.PLATINUM.getRank();
+                                        discount = CustomerRank.PLATINUM.getDiscount();
+                                        break;
+                                    default: break;
+                                }
+                                System.out.println("주문이 완료되었습니다!");
+                                System.out.println("할인 전 금액: " + total + "원");
+                                System.out.println(rank + "등급 할인(" + discount*100 + "%): -" + (total-discountTotal) + "원");
+                                System.out.println("최종 결제 금액: " + discountTotal + "원");
                                 cart.subProductQuantity();
                                 Category.setProductQuantity(cart);
                                 cart.removeAllProduct();

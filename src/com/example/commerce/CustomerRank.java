@@ -9,11 +9,16 @@ public enum CustomerRank {
     private String rank;
     private double discount;
 
-    CustomerRank(String rank, double price) {
+    CustomerRank(String rank, double discount) {
         this.rank = rank;
-        this.discount = price;
+        this.discount = discount;
     }
 
+    @Override
+    public String toString() {
+        String str = ". " + rank + " : " + discount*100 + "% 할인";
+        return str;
+    }
     public String getRank() {
         return rank;
     }
