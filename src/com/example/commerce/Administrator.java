@@ -8,8 +8,36 @@ public class Administrator {
     private final String password = "admin123"; //비밀번호
 
     //3. 기능
-    public static void adminMode() {
+    public String getPassword() {
+        return password;
+    }
 
+    public static void adminMode() {
+        Scanner input = new Scanner(System.in);
+        Administrator admin = new Administrator();
+        System.out.println("관리자 비밀번호를 입력해 주세요: ");
+        int chance = 3;
+        while (chance != 0) {
+            String answer = input.nextLine();
+            if(!answer.equals(admin.getPassword())) {
+                System.out.println("비밀번호가 일치하지 않습니다. 다시 입력해 주세요.\n3회 이상 실패할 경우 메인으로 돌아갑니다.");
+                chance--;
+                System.out.println("남은 횟수: " + chance);
+            } else if (answer.equals(admin.getPassword())) {
+                break;
+            }
+        }
+        if (chance == 0) {
+            System.out.println("비밀번호를 3회 이상 틀리셨습니다. 메인으로 돌아갑니다.");
+            return;
+        }
+
+        System.out.println("[ 관리자 모드 ]");
+        System.out.println("1. 상품 추가\n2. 상품 수정\n3. 상품 삭제\n4. 전체 상품 현황\n0. 메인으로 돌아가기");
+        int choice = input.nextInt();
+        switch (choice) {
+            case 1:
+        }
     }
     //새로운 상품을 추가하는 과정을 수행하는 메서드
     public Product getNewProduct() {
