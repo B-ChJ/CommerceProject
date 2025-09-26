@@ -20,39 +20,38 @@ public class CommerceSystem {
         do {
             //메인에서 조회할 카테고리를 고르도록 카테고리 이름을 출력
             System.out.println("[ 실시간 커머스 플랫폼 메인 ]");
-            for (Category c : Category.values()) {
+            for (Category c : Category.values()) { //카테고리 번호 + 이름 출력
                 System.out.println((c.ordinal()+1) + ". " + c.getCategoryName());
             }
             System.out.println("0. 종료 | 프로그램 종료");
             System.out.println("6. 관리자 모드");
-            //장바구니가 비어있으면 다음 단계로 진행
+            //장바구니가 비어있는지 Check
             if(!(cart.getCart() == null || cart.getCart().isEmpty())){
             //장바구니가 null이 아닐 경우 Cart 관련 동작을 보여줌
                 System.out.println("\n[ 주문 관리 ]");
                 System.out.println("4. 장바구니 확인 | 장바구니를 확인 후 주문합니다.");
                 System.out.println("5. 주문 취소 | 진행 중인 주문을 취소합니다.");
             }
-            int numCategory = input.nextInt();
-            if(numCategory == 0){ break; } //프로그램 종료
+            int numCategory = input.nextInt(); // 메뉴 선택지 입력
+            if(numCategory == 0){ break; } // 0 입력 시 프로그램 종료
             //카테고리 내 상품 정보 조회
-            else if(numCategory < 4) {
+            else if(numCategory < 4) { //1~3번 선택지 동작 루트
                 switch (numCategory) {
-                    case 1:
-                        Category.printProducts(Category.ELECTRONICS);
-                        choiceProduct = Category.printProductQuantity(Category.ELECTRONICS, input.nextInt());
+                    case 1: //전자제품 상품 조회
+                        choiceProduct = Category.filterProduct(numCategory, 1000000);
                         System.out.println("위 상품을 장바구니에 추가하시겠습니까?\n1. 확인       2. 취소");
                         choice = input.nextInt();
                         this.checkChoice(cart, choiceProduct, choice);
                         break;
                     case 2:
-                        Category.printProducts(Category.CLOTHES);
+                        Category.filterProduct(numCategory, 15000);
                         choiceProduct = Category.printProductQuantity(Category.CLOTHES, input.nextInt());
                         System.out.println("위 상품을 장바구니에 추가하시겠습니까?\n1. 확인       2. 취소");
                         choice = input.nextInt();
                         this.checkChoice(cart, choiceProduct, choice);
                         break;
                     case 3:
-                        Category.printProducts(Category.FOODS);
+                        Category.filterProduct(numCategory, 10000);
                         choiceProduct = Category.printProductQuantity(Category.FOODS, input.nextInt());
                         System.out.println("위 상품을 장바구니에 추가하시겠습니까?\n1. 확인       2. 취소");
                         choice = input.nextInt();
