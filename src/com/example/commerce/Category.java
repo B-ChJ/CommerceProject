@@ -3,6 +3,7 @@ package com.example.commerce;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 /**Product 클래스를 리스트로 관리*/
 public enum Category {
@@ -101,5 +102,88 @@ public enum Category {
                 break;
             default: throw new ArrayIndexOutOfBoundsException(index + "은(는) 존재하지 않는 카테고리 번호입니다.");
         }
+    }
+    //가격대 필터를 적용해 상품 목록을 보여주는 분기점 메서드
+    public static Product filterProduct(int index, int standard) {
+        Scanner sc = new Scanner(System.in);
+        Product choiceProduct = null;
+        String[] str;
+        int choice;
+        switch (index) {
+            case 1:
+                System.out.println("[ " + ELECTRONICS.categoryName + " 카테고리 ]");
+                System.out.println("1. 전체 상품 보기\n2. 가격대별 필터링 ( ~ " + standard + "원");
+                System.out.println("3. 가격대별 필터링 (" + standard + "원 ~ )\n0. 뒤로 가기");
+                choice = sc.nextInt();
+                if(choice==2) {
+                    str = (String[]) Category.ELECTRONICS.getCategoryList().stream().filter(product -> product.getPrice() < standard).toArray();
+                    for (int i=0; i<ELECTRONICS.products.size(); i++) {
+                        if(str[i]==null) { break; }
+                        System.out.println((i+1) + ". " + str[i]);
+                    }
+                    choiceProduct = Category.printProductQuantity(Category.ELECTRONICS, sc.nextInt());
+                } else if (choice==3) {
+                    str = (String[]) Category.ELECTRONICS.getCategoryList().stream().filter(product -> product.getPrice() > standard).toArray();
+                    for (int i=0; i<ELECTRONICS.products.size(); i++) {
+                        if(str[i]==null) { break; }
+                        System.out.println((i+1) + ". " + str[i]);
+                    }
+                    choiceProduct = Category.printProductQuantity(Category.ELECTRONICS, sc.nextInt());
+                }
+                else if (choice==1) {Category.printProducts(Category.ELECTRONICS);
+                    choiceProduct = Category.printProductQuantity(Category.ELECTRONICS, sc.nextInt());}
+                else if (choice!=0) throw new ArrayIndexOutOfBoundsException("유효하지 않은 번호입니다.");
+                break;
+            case 2:
+                System.out.println("[ " + CLOTHES.categoryName + " 카테고리 ]");
+                System.out.println("1. 전체 상품 보기\n2. 가격대별 필터링 ( ~ " + standard + "원");
+                System.out.println("3. 가격대별 필터링 (" + standard + "원 ~ )\n0. 뒤로 가기");
+                choice = sc.nextInt();
+                if(choice==2) {
+                    str = (String[]) Category.CLOTHES.getCategoryList().stream().filter(product -> product.getPrice() < standard).toArray();
+                    for (int i=0; i<CLOTHES.products.size(); i++) {
+                        if(str[i]==null) { break; }
+                        System.out.println((i+1) + ". " + str[i]);
+                    }
+                    choiceProduct = Category.printProductQuantity(Category.CLOTHES, sc.nextInt());
+                } else if (choice==3) {
+                    str = (String[]) Category.CLOTHES.getCategoryList().stream().filter(product -> product.getPrice() > standard).toArray();
+                    for (int i=0; i<CLOTHES.products.size(); i++) {
+                        if(str[i]==null) { break; }
+                        System.out.println((i+1) + ". " + str[i]);
+                    }
+                    choiceProduct = Category.printProductQuantity(Category.CLOTHES, sc.nextInt());
+                }
+                else if (choice==1) {Category.printProducts(Category.CLOTHES);
+                    choiceProduct = Category.printProductQuantity(Category.CLOTHES, sc.nextInt());}
+                else if (choice!=0) throw new ArrayIndexOutOfBoundsException("유효하지 않은 번호입니다.");
+                break;
+            case 3:
+                System.out.println("[ " + FOODS.categoryName + " 카테고리 ]");
+                System.out.println("1. 전체 상품 보기\n2. 가격대별 필터링 ( ~ " + standard + "원");
+                System.out.println("3. 가격대별 필터링 (" + standard + "원 ~ )\n0. 뒤로 가기");
+                choice = sc.nextInt();
+                if(choice==2) {
+                    str = (String[]) Category.FOODS.getCategoryList().stream().filter(product -> product.getPrice() < standard).toArray();
+                    for (int i=0; i<FOODS.products.size(); i++) {
+                        if(str[i]==null) { break; }
+                        System.out.println((i+1) + ". " + str[i]);
+                    }
+                    choiceProduct = Category.printProductQuantity(Category.FOODS, sc.nextInt());
+                } else if (choice==3) {
+                    str = (String[]) Category.FOODS.getCategoryList().stream().filter(product -> product.getPrice() > standard).toArray();
+                    for (int i=0; i<FOODS.products.size(); i++) {
+                        if(str[i]==null) { break; }
+                        System.out.println((i+1) + ". " + str[i]);
+                    }
+                    choiceProduct = Category.printProductQuantity(Category.FOODS, sc.nextInt());
+                }
+                else if (choice==1) {Category.printProducts(Category.FOODS);
+                    choiceProduct = Category.printProductQuantity(Category.FOODS, sc.nextInt());}
+                else if (choice!=0) throw new ArrayIndexOutOfBoundsException("유효하지 않은 번호입니다.");
+                break;
+            default: throw new ArrayIndexOutOfBoundsException("유효하지 않은 번호입니다.");
+        }
+        return choiceProduct;
     }
 }
