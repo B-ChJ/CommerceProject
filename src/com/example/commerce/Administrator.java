@@ -1,6 +1,5 @@
 package com.example.commerce;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Administrator {
@@ -12,14 +11,14 @@ public class Administrator {
         return password;
     }
 
-    public static void adminMode() {
+    public static Cart adminMode(Cart cart) {
         Scanner input = new Scanner(System.in);
         Administrator admin = new Administrator();
         System.out.println("관리자 비밀번호를 입력해 주세요: ");
         int chance = 3;
         while (chance != 0) {
             String answer = input.nextLine();
-            if(!answer.equals(admin.getPassword())) {
+            if (!answer.equals(admin.getPassword())) {
                 System.out.println("비밀번호가 일치하지 않습니다. 다시 입력해 주세요.\n3회 이상 실패할 경우 메인으로 돌아갑니다.");
                 chance--;
                 System.out.println("남은 횟수: " + chance);
@@ -29,16 +28,36 @@ public class Administrator {
         }
         if (chance == 0) {
             System.out.println("비밀번호를 3회 이상 틀리셨습니다. 메인으로 돌아갑니다.");
-            return;
+            return cart;
         }
-
-        System.out.println("[ 관리자 모드 ]");
-        System.out.println("1. 상품 추가\n2. 상품 수정\n3. 상품 삭제\n4. 전체 상품 현황\n0. 메인으로 돌아가기");
-        int choice = input.nextInt();
-        switch (choice) {
-            case 1:
-        }
+        int choice;
+        do {
+            System.out.println("[ 관리자 모드 ]");
+            System.out.println("1. 상품 추가\n2. 상품 수정\n3. 상품 삭제\n4. 전체 상품 현황\n0. 메인으로 돌아가기");
+            choice = input.nextInt();
+            switch (choice) {
+                case 0: break;
+                case 1:
+                    admin.getNewProduct();
+                    break;
+                case 2:
+                    admin.getUpdateProduct();
+                    break;
+                case 3:
+                    admin.setRemoveProduct(cart);
+                    break;
+                case 4:
+                    System.out.println("[ 전체 상품 현황 ]");
+                    for(Category c : Category.values()) {
+                        Category.printProducts(c);
+                    }
+                    break;
+                default: throw new IllegalArgumentException("유효하지 않은 선택지입니다.");
+            }
+        } while (choice != 0);
+        return cart;
     }
+
     //새로운 상품을 추가하는 과정을 수행하는 메서드
     public Product getNewProduct() {
         Scanner input = new Scanner(System.in);
@@ -47,6 +66,7 @@ public class Administrator {
             System.out.println((c.ordinal()+1) + ". " + c.getCategoryName());
         }
         int index = input.nextInt();
+        input.nextLine();
         System.out.println("[ " + Category.values()[index].getCategoryName() + " 카테고리에 상품 추가 ]");
         System.out.print("상품명을 입력해 주세요: ");
         String name = input.nextLine();
@@ -85,9 +105,9 @@ public class Administrator {
         Product p = null;
         int index = 0;
         for (Category c : Category.values()) {
-            if (c.getCategoryList().contains(name)) {
-                p = c.getCategoryList().get(c.getCategoryList().indexOf(name));
-                index = c.getCategoryList().indexOf(p);
+            p = c.findProduct(name);
+            if (p != null) {
+                break;
             }
         }
         System.out.println("현재 상품 정보: " + p.toString() + " | 재고: " + p.getQuantity() + "개");
@@ -114,11 +134,42 @@ public class Administrator {
                 System.out.println("현재 재고 수량: " + beforeQuantity + "개");
                 System.out.print("새로운 재고 수량을 입력해 주세요: ");
                 p.setQuantity(input.nextInt());
-                System.out.println(p.getName() + "의 재고 수량이 " + beforePrice + "개 → " + p.getPrice() + "개로 수정되었습니다.");
+                System.out.println(p.getName() + "의 재고 수량이 " + beforeQuantity + "개 → " + p.getQuantity() + "개로 수정되었습니다.");
                 break;
             default:
                 throw new IllegalArgumentException("유효하지 않은 선택지입니다.");
         }
         Category.replaceProduct(index, p);
+    }
+    //기등록된 상품을 카테고리에서 제거하는 메서드
+    public void setRemoveProduct(Cart cart) {
+        Scanner input = new Scanner(System.in);
+
+        System.out.println("어느 카테고리의 상품을 삭제하시겠습니까?");
+        for (Category c : Category.values()) {
+            System.out.println((c.ordinal()+1) + ". " + c.getCategoryName());
+        }
+        int index = input.nextInt();
+        input.nextLine();
+        Product p = null;
+        System.out.println("삭제할 상품명을 입력해 주세요:");
+        String name = input.nextLine();
+        for (Category c : Category.values()) {
+            p = c.findProduct(name);
+            if (p != null) {
+                break;
+            }
+        }
+        System.out.println("상품 정보: " + p.toString() + " | 재고: " + p.getQuantity() + "개");
+        System.out.println("위 상품을 완전히 삭제하시겠습니까?\n1. 예     2.아니오(관리자 모드로 돌아갑니다.)");
+        int c =  input.nextInt();
+        if(c == 1) {
+            Category.removeProduct(index, p);
+            cart.removeProduct(p);
+        }
+        else if(c == 2) {
+            return;
+        }
+        System.out.println("관리자 모드로 돌아갑니다.");
     }
 }

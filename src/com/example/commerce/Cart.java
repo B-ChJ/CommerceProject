@@ -55,5 +55,10 @@ public class Cart {
     public void removeAllProduct() {
         this.cartProducts.clear();
     }
+    //장바구니에서 특정 상품을 삭제하는 메서드
+    public Cart removeProduct(Product product) {
+        this.cartProducts.remove(product);
+        return this;
+    }
 
 }

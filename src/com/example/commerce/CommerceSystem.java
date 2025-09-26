@@ -83,7 +83,7 @@ public class CommerceSystem {
                             default: throw new IllegalArgumentException("1 또는 2를 입력해 주세요.");
                         } break;
                     case 5: cart.removeAllProduct(); break;
-                    case 6: Administrator.adminMode(); break;
+                    case 6: Administrator.adminMode(cart); break;
                     default: throw new IllegalArgumentException("유효하지 않은 카테고리 번호입니다.");
                 }
             }
