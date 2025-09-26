@@ -164,8 +164,8 @@ public class Administrator {
         System.out.println("위 상품을 완전히 삭제하시겠습니까?\n1. 예     2.아니오(관리자 모드로 돌아갑니다.)");
         int c =  input.nextInt();
         if(c == 1) {
-            Category.removeProduct(index, p);
-            cart.removeProduct(p);
+            Category.removeProduct(index, p); // 카테고리에서 상품 삭제
+            cart.removeProduct(p); //장바구니에서 상품 삭제
         }
         else if(c == 2) {
             return;
