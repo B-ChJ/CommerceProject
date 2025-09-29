@@ -61,6 +61,10 @@ public class Product {
     public int getQuantity() {
         return quantity;
     }
+    //주문 수량을 int로 return
+    public int getCount() {
+        return count;
+    }
 
     /**Setter Method*/
     //입력값 String name을 Product의 상품명으로 입력
@@ -79,10 +83,7 @@ public class Product {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public int getCount() {
-        return count;
-    }
+    //입력값 int count를 Product의 주문 수량으로 입력
     public void setCount(int count) {
         this.count = count;
     }
