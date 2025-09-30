@@ -95,4 +95,10 @@ public class Product {
         String str = String.format("%s | %s원 | %s", name, df.format(price), description);
         return str;
     }
+    //주문 수량만큼 재고수량을 감소시키는 메서드
+    public int decreaseQuantity(int orderQuantity) {
+        if(orderQuantity > this.quantity) { throw new ArrayIndexOutOfBoundsException("재고 수량보다 많은 개수를 주문할 수 없습니다.");}
+        this.quantity -= orderQuantity;
+        return this.quantity;
+    }
 }
