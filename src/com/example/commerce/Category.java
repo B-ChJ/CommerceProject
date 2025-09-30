@@ -3,23 +3,19 @@ package com.example.commerce;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
 /**Product 클래스를 리스트로 관리*/
-public enum Category {
-    ELECTRONICS("전자제품"),
-    CLOTHES("의류"),
-    FOODS("음식");
-
+public class Category {
     //1. 속성
     private final String categoryName;
     private final List<Product> products = new ArrayList<>();
-    Scanner sc = new Scanner(System.in);
+
     //2. 생성자
     Category(String categoryName, Product... product) {
         this.categoryName = categoryName;
         products.addAll(Arrays.asList(product));
     }
+
 
     //3. 기능
 //Category의 Product 객체들을 반환하는 getter 메서드
