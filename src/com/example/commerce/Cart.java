@@ -36,6 +36,14 @@ public class Cart {
     public List<CartItem> getCart() {
         return this.cart;
     }
+    public CartItem getCartItem(Product product) {
+        for (CartItem cartItem : cart) {
+            if (cartItem.getProduct().getName().equals(product.getName())) {
+                return cartItem;
+            }
+        }
+        return null;
+    }
 
     //장바구니의 내역을 삭제(초기화)하는 메서드
     public void removeAllProduct() {

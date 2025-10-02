@@ -48,7 +48,7 @@ public class Administrator {
                     this.getUpdateProduct(categories);
                     break;
                 case 3:
-                    this.setRemoveProduct(cart);
+                    this.setRemoveProduct(cart, categories);
                     break;
                 case 4:
                     System.out.println("[ 전체 상품 현황 ]");
@@ -145,28 +145,27 @@ public class Administrator {
     //기등록된 상품을 카테고리에서 제거하는 메서드
     public void setRemoveProduct(Cart cart, List<Category> categories) {
         System.out.println("어느 카테고리의 상품을 삭제하시겠습니까?");
+        int i = 1;
         for (Category c : categories) {
-            System.out.println((c.ordinal()+1) + ". " + c.getCategoryName());
+            System.out.println(i + ". " + c.getCategoryName());
+            i++;
         }
-        int index = input.nextInt();
+        index = input.nextInt();
         input.nextLine();
         Product p = null;
         System.out.println("삭제할 상품명을 입력해 주세요:");
         String name = input.nextLine();
         for (Category c : categories) {
             p = c.findProduct(name);
-            if (p != null) {
-                break;
-            }
         }
-        System.out.println("상품 정보: " + p.toString() + " | 재고: " + p.getQuantity() + "개");
+        System.out.println("상품 정보: " + Objects.requireNonNull(p) + " | 재고: " + p.getQuantity() + "개");
         System.out.println("위 상품을 완전히 삭제하시겠습니까?\n1. 예     2.아니오(관리자 모드로 돌아갑니다.)");
-        int c =  input.nextInt();
-        if(c == 1) {
-            Category.removeProduct(index, p); // 카테고리에서 상품 삭제
-            cart.removeProduct(p); //장바구니에서 상품 삭제
+        choice = input.nextInt();
+        if(choice == 1) {
+            categories.get(index).removeProduct(p); // 카테고리에서 상품 삭제
+            cart.removeCartItem(cart.getCartItem(p)); //장바구니에서 상품 삭제
         }
-        else if(c == 2) {
+        else if(choice == 2) {
             return;
         }
         System.out.println("관리자 모드로 돌아갑니다.");
