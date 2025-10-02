@@ -1,5 +1,6 @@
 package com.example.commerce;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -22,21 +23,26 @@ public class CommerceSystem {
     //프로그램 비즈니스를 실행하는 start() 메서드
     public void start(List<Category> category) {
         setCategories(category); // 카테고리 세팅
+        Administrator admin = new Administrator();
         //do-while 반복문으로 일단 상품 목록 1회 출력 후 조건문 check
         do {
         systemStart();
+            //장바구니가 비어있는지 Check
+            if ( !(cart.getCart()== null || cart.getCart().isEmpty()) ){
+                //장바구니가 null이 아닐 경우 Cart 관련 동작을 보여줌
+                System.out.println("\n[ 주문 관리 ]");
+                System.out.println("4. 장바구니 확인 | 장바구니를 확인 후 주문합니다.");
+                System.out.println("5. 주문 취소 | 진행 중인 주문을 취소합니다.");
+            }
         // (메인페이지) 분기점 1. 카테고리 내 상품 조회 | 2. 장바구니 | 3. 관리자 모드 | 0. 프로그램 종료
         choice = input.nextInt(); // 메뉴 선택지 번호 입력
         //카테고리 내 상품 정보 조회
-        if (choice < 4) { //1~3번 선택지 동작 루트
+        if (0 < choice && choice < 4) { //1~3번 선택지 동작 루트
             this.choiceCategory(choice, categories); // 카테고리의 가격대별 조회 화면으로 이동
             System.out.println("0. 뒤로가기");
-            int num = input.nextInt();
+            choice = input.nextInt();
             //while문이 종료되지 않도록 입력값 임의의 int 값으로 변경
-            if (num == 0) {
-                num = 10;
-            }
-        } else {
+        } else if(choice != 0) {
             switch (choice) {
                 case 4: //장바구니 확인
                     System.out.println("아래와 같이 주문하시겠습니까?");
@@ -67,13 +73,13 @@ public class CommerceSystem {
                     cart.removeAllProduct();
                     break;
                 case 6:
-                    Administrator.adminMode(cart, categories);
+                    admin.adminMode(cart, categories);
                     break;
                 default:
                     throw new IllegalArgumentException("유효하지 않은 카테고리 번호입니다.");
             }
         }
-        } while (!input.nextLine().equals("0"));
+        } while (choice!=0);
         input.close();
 
         System.out.println("입력을 종료합니다.");
@@ -124,19 +130,12 @@ public class CommerceSystem {
             }
             System.out.println("0. 종료 | 프로그램 종료");
             System.out.println("6. 관리자 모드");
-            //장바구니가 비어있는지 Check
-            if ( !(cart.getCart()== null || cart.getCart().isEmpty()) ){
-                //장바구니가 null이 아닐 경우 Cart 관련 동작을 보여줌
-                System.out.println("\n[ 주문 관리 ]");
-                System.out.println("4. 장바구니 확인 | 장바구니를 확인 후 주문합니다.");
-                System.out.println("5. 주문 취소 | 진행 중인 주문을 취소합니다.");
-            }
     }
 
     public void checkChoice(Cart cart, Product product, int choice) {
         switch (choice) {
             case 1:
-                cart.setCart(product);
+                cart.setCart(cart.addCart(cart, product));
                 System.out.println(product.getName() + "이(가) 장바구니에 추가되었습니다.");
                 break;
             case 2:
@@ -147,64 +146,49 @@ public class CommerceSystem {
     }
 
     public void choiceCategory(int number, List<Category> categories) {
-        switch (number) {
-            case 1: //전자제품 상품 조회
-                choiceProduct = filterProduct(number, 1000000, categories.get(number-1));
-                System.out.println("선택한 상품: " + choiceProduct.toString());
-                System.out.println("위 상품을 장바구니에 추가하시겠습니까?\n1. 확인       2. 취소");
-                choice = input.nextInt();
-                this.checkChoice(cart, choiceProduct, choice);
-                break;
-            case 2:
-                choiceProduct = filterProduct(number, 15000, categories.get(number-1));
-                System.out.println("선택한 상품: " + choiceProduct.toString());
-                System.out.println("위 상품을 장바구니에 추가하시겠습니까?\n1. 확인       2. 취소");
-                choice = input.nextInt();
-                this.checkChoice(cart, choiceProduct, choice);
-                break;
-            case 3:
-                choiceProduct = filterProduct(number, 10000, categories.get(number-1));
-                System.out.println("선택한 상품: " + choiceProduct.toString());
-                System.out.println("위 상품을 장바구니에 추가하시겠습니까?\n1. 확인       2. 취소");
-                choice = input.nextInt();
-                this.checkChoice(cart, choiceProduct, choice);
-                break;
-            default:
-                throw new IllegalArgumentException("유효하지 않은 카테고리 번호입니다.");
+        int standard = 10000;
+        if(number == 1) {
+            standard = 1000000;
         }
-    }
-    //가격대 필터를 적용해 상품 목록을 보여주는 분기점 메서드
-    public Product filterProduct(int index, int standard, Category category) {
-        String[] str;
-        System.out.println("[ " + category.getCategoryName() + " 카테고리 ]");
+        System.out.println("[ " + categories.get(number-1).getCategoryName() + " 카테고리 ]");
         System.out.println("1. 전체 상품 보기\n2. 가격대별 필터링 ( ~ " + standard + "원");
         System.out.println("3. 가격대별 필터링 (" + standard + "원 ~ )\n0. 뒤로 가기");
         choice = input.nextInt();
+        if(choice==0) { return; }
+        choiceProduct = filterProduct(choice, standard, categories.get(number-1));
+        System.out.println("선택한 상품: " + choiceProduct.toString());
+        System.out.println("위 상품을 장바구니에 추가하시겠습니까?\n1. 확인       2. 취소");
+        choice = input.nextInt();
+        this.checkChoice(cart, choiceProduct, choice);
+    }
+    //가격대 필터를 적용해 상품 목록을 보여주는 분기점 메서드
+    public Product filterProduct(int choice, int standard, Category category) {
+        List<Product> tmp;
         switch (choice) {
-            case 0: break;
             case 1:
                 Category.printProducts(category);
                 choiceProduct = Category.printProductQuantity(category, input.nextInt());
                 break;
             case 2:
-                str = (String[]) category.getCategoryList().stream().filter(product -> product.getPrice() < standard).toArray();
-//                choiceProduct = filteredList(str, category);
+                tmp = category.getCategoryList().stream().filter(product -> product.getPrice() < standard).toList();
+                choiceProduct = filteredList(tmp);
                 break;
             case 3:
-                str = (String[]) category.getCategoryList().stream().filter(product -> product.getPrice() > standard).toArray();
-//                choiceProduct = filteredList(str, category);
+                tmp = category.getCategoryList().stream().filter(product -> product.getPrice() > standard).toList();
+                choiceProduct = filteredList(tmp);
                 break;
             default: throw new ArrayIndexOutOfBoundsException("유효하지 않은 번호입니다.");
         }
         return choiceProduct;
     }
-    public void filteredList(String[] str, Category category) {
-        for (int i=0; i<category.getCategoryList().size(); i++) {
-            if(str[i]==null) { break; }
-            System.out.println((i+1) + ". " + str[i]);
+    public Product filteredList(List<Product> tmp) {
+        int i=1;
+        for (Product p : tmp) {
+            if(p==null) { break; }
+            else System.out.println(i + ". " + p);
+            i++;
         }
-        System.out.println(str);
-//        choiceProduct = str[input.nextInt()-1];
-//        return choiceProduct;
+        choiceProduct = tmp.get(input.nextInt()-1);
+        return choiceProduct;
     }
 }

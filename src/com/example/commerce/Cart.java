@@ -10,12 +10,17 @@ public class Cart {
     //2. 생성자
     //3. 기능
     //장바구니에 Product 정보를 등록하는 메서드
-    public void addCart(Product product, int quantity) {
-        for (CartItem cartItem : cart) {
-            if (cartItem.getProduct().getName().equals(product.getName())) { // CartItem의 상품명과 Product의 상품명이 같으면
-                cartItem.setCountOrder(cartItem.getCountOrder() + quantity); // CartItem의 주문수량 countOrder를 기존 값에 quantity를 더한 값으로 setting
+    public Cart addCart(Cart carts, Product product) {
+        for (CartItem cartItem : carts.getCart()) {
+            if (cartItem.getProduct().getName().equals(product.getName())) { // CartItem의 상품명과 Product의 상품명이 같으면(=상품이 이미 장바구니에 있으면)
+                cartItem.setCountOrder(cartItem.getCountOrder() + 1); // CartItem의 주문수량 countOrder를 기존 값에 1을 더한 값으로 setting
+            }
+            else {
+                CartItem c = new CartItem(product, 1);
+                carts.getCart().add(c);
             }
         }
+        return carts;
     }
     //장바구니의 모든 상품과 총 금액을 출력하는 메서드
     public int printCart() {
@@ -35,6 +40,9 @@ public class Cart {
     //장바구니 목록을 반환하는 Getter 메서드
     public List<CartItem> getCart() {
         return this.cart;
+    }
+    public void setCart(Cart carts) {
+        this.cart = carts.getCart();
     }
     public CartItem getCartItem(Product product) {
         for (CartItem cartItem : cart) {

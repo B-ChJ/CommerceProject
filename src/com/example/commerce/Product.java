@@ -52,6 +52,7 @@ public class Product {
 //    }
 
     /**Setter Method*/
+
     //입력값 String name을 Product의 상품명으로 입력
     public void setName(String name) {
         this.name = name;
