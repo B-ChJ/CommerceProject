@@ -6,7 +6,7 @@ import java.util.List;
 public class Cart {
     //1. 속성
     private List<CartItem> cart = new ArrayList<>();
-
+    public int index = 0;
     //2. 생성자
     //3. 기능
     //장바구니에 Product 정보를 등록하는 메서드
@@ -37,16 +37,13 @@ public class Cart {
         return this.cart;
     }
 
-
-
     //장바구니의 내역을 삭제(초기화)하는 메서드
     public void removeAllProduct() {
-        this.cartProducts.clear();
+        this.cart.clear();
     }
     //장바구니에서 특정 상품을 삭제하는 메서드
-    public Cart removeProduct(Product product) {
-        this.cartProducts.remove(product);
-        return this;
+    public void removeCartItem(CartItem product) {
+        this.cart.remove(product);
     }
 
 }
