@@ -65,9 +65,10 @@ public class Category {
 
     }
     //상품의 상세 정보를 수정하는 메서드
-//    public static void replaceProduct(int index, Product product) {
-//        Product set = Category.values()[index].getCategoryList().set(index, product);
-//    }
+    public void replaceProduct(Product product) {
+        int index = this.products.indexOf(product);
+        this.getCategoryList().set(index, product);
+    }
     /**등록되어 있던 상품을 삭제하는 메서드
      * @param index 삭제할 상품의 카테고리 번호
      * @param product 삭제할 상품 Product element*/
