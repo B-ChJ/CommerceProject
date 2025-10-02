@@ -5,51 +5,39 @@ import java.util.List;
 
 public class Cart {
     //1. 속성
-    private List<Product> cartProducts = new ArrayList<>();
+    private List<CartItem> cart = new ArrayList<>();
 
     //2. 생성자
     //3. 기능
     //장바구니에 Product 정보를 등록하는 메서드
-    public void setCart(Product product) {
-        //재고가 있으면 장바구니에 상품 추가
-        int count;
-        if(product.getQuantity() > 0) {
-            if((!cartProducts.contains(product))) {
-                count = product.getCount() + 1;
-                this.cartProducts.add(product);
+    public void addCart(Product product, int quantity) {
+        for (CartItem cartItem : cart) {
+            if (cartItem.getProduct().getName().equals(product.getName())) { // CartItem의 상품명과 Product의 상품명이 같으면
+                cartItem.setCountOrder(cartItem.getCountOrder() + quantity); // CartItem의 주문수량 countOrder를 기존 값에 quantity를 더한 값으로 setting
             }
-            else count = product.getCount() + 1;
         }
-        else throw new ArrayIndexOutOfBoundsException("재고가 부족합니다.");
-
-        this.cartProducts.get(cartProducts.indexOf(product)).setCount(count);
     }
     //장바구니의 모든 상품과 총 금액을 출력하는 메서드
     public int printCart() {
         int total = 0;
         System.out.println("[ 장바구니 내역 ]");
-        for(Product product : cartProducts) {
-            System.out.println(product.toString() + " | 수량: " + product.getCount() + "개");
-            total = total + product.getPrice()*product.getCount();
-            if(product.getCount() > product.getQuantity()) {
-                throw new ArrayIndexOutOfBoundsException("주문하시려는 수량이 재고 수량보다 많습니다.");
+        for(CartItem product : cart) {
+            System.out.println(product.getProductInfo()); // 장바구니의 Product 한줄씩 출력
+            total += product.getCartItemPrice(); // 장바구니의 총 금액 total 연산
+            if(product.getCountOrder() > product.getProduct().getQuantity()) { //상품의 주문 수량이 재고 수량보다 많을 경우
+                throw new ArrayIndexOutOfBoundsException("주문하시려는 수량이 재고 수량보다 많습니다."); //예외 처리
             }
         }
         System.out.println("[ 총 주문 금액 ]");
         System.out.println(total+"원");
         return total;
     }
-    public List<Product> getCart() {
-        return this.cartProducts;
+    //장바구니 목록을 반환하는 Getter 메서드
+    public List<CartItem> getCart() {
+        return this.cart;
     }
-    public void subProductQuantity() {
-        for(Product p : cartProducts) {
-            int beforeQuantity = p.getQuantity();
-            this.cartProducts.get(cartProducts.indexOf(p)).setQuantity(p.getQuantity() - p.getCount());
-            int afterQuantity = this.cartProducts.get(cartProducts.indexOf(p)).getQuantity();
-            System.out.println(p.getName() + " 재고가 " + beforeQuantity + "개 → " + afterQuantity + "개로 업데이트 되었습니다.");
-        }
-    }
+
+
 
     //장바구니의 내역을 삭제(초기화)하는 메서드
     public void removeAllProduct() {
