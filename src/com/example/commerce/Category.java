@@ -37,14 +37,6 @@ public class Category {
             System.out.println((i+1) + ". " + str[i]);
         }
     }
-    //선택한 상품 정보와 재고 수량을 출력하고 해당 Product를 반환하는 메서드
-    public static Product printProductQuantity(Category category, int i) {
-        if(i > category.products.size()) {
-            throw new IllegalArgumentException("존재하지 않는 상품 번호입니다.");
-        }
-        System.out.println("선택한 상품: " + category.products.get(i-1).toString() + " | 재고수량: " + category.products.get(i-1).getQuantity() + "개");
-        return category.products.get(i-1);
-    }
     //카테고리 이름을 반환하는 getter 메서드
     public String getCategoryName() {
         return categoryName;

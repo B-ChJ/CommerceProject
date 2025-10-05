@@ -42,6 +42,7 @@ public class CommerceSystem {
             System.out.println("0. 뒤로가기");
             choice = input.nextInt();
             //while문이 종료되지 않도록 입력값 임의의 int 값으로 변경
+            choice = 10;
         } else if(choice != 0) {
             switch (choice) {
                 case 4: //장바구니 확인
@@ -156,7 +157,6 @@ public class CommerceSystem {
         choice = input.nextInt();
         if(choice==0) { return; }
         choiceProduct = filterProduct(choice, standard, categories.get(number-1));
-        System.out.println("선택한 상품: " + choiceProduct.toString());
         System.out.println("위 상품을 장바구니에 추가하시겠습니까?\n1. 확인       2. 취소");
         choice = input.nextInt();
         this.checkChoice(cart, choiceProduct, choice);
@@ -167,7 +167,7 @@ public class CommerceSystem {
         switch (choice) {
             case 1:
                 Category.printProducts(category);
-                choiceProduct = Category.printProductQuantity(category, input.nextInt());
+                choiceProduct = category.getCategoryList().get(input.nextInt()-1);
                 break;
             case 2:
                 tmp = category.getCategoryList().stream().filter(product -> product.getPrice() < standard).toList();
@@ -179,6 +179,7 @@ public class CommerceSystem {
                 break;
             default: throw new ArrayIndexOutOfBoundsException("유효하지 않은 번호입니다.");
         }
+        System.out.println("선택한 상품: " + choiceProduct.toString() + " | 재고수량: " + choiceProduct.getQuantity() + "개");
         return choiceProduct;
     }
     public Product filteredList(List<Product> tmp) {
