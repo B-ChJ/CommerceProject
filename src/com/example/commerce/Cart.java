@@ -13,8 +13,10 @@ public class Cart {
         CartItem item = new CartItem(product, 0);
         for (CartItem cartItem : this.cart) {
             if (cartItem.getProduct().equals(item.getProduct())) { // CartItem의 상품과 Product의 상품이 같으면(=상품이 이미 장바구니에 있으면)
-                this.cart.get(cart.indexOf(item.getProduct())).setCountOrder(cartItem.getCountOrder() + 1); // CartItem의 주문수량 countOrder를 기존 값에 1을 더한 값으로 setting
-                break;
+                int index = findIndex(cartItem);
+                item.setCountOrder(cartItem.getCountOrder() + 1);
+                this.cart.set(index, item); // CartItem의 주문수량 countOrder를 기존 값에 1을 더한 값으로 setting
+                return;
             }
         }
         item.setCountOrder(1);
@@ -59,5 +61,14 @@ public class Cart {
     public void removeCartItem(CartItem product) {
         this.cart.remove(product);
     }
-
+    public int findIndex(CartItem item) {
+        int index = 0;
+        for (CartItem cartItem : this.cart) {
+            if (cartItem.getProduct().getName().equals(item.getProduct().getName())) {
+                index = cart.indexOf(item);
+                return index;
+            }
+        }
+        return -1;
+    }
 }
