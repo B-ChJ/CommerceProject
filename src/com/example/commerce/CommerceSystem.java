@@ -13,7 +13,7 @@ public class CommerceSystem {
     private List<Category> categories;
     Product choiceProduct;
     int index, choice;
-    Cart cart = new Cart();
+    public Cart cart;
 
     //2. 생성자
     //3. 기능
@@ -23,12 +23,13 @@ public class CommerceSystem {
     //프로그램 비즈니스를 실행하는 start() 메서드
     public void start(List<Category> category) {
         setCategories(category); // 카테고리 세팅
+        this.cart = new Cart();
         Administrator admin = new Administrator();
         //do-while 반복문으로 일단 상품 목록 1회 출력 후 조건문 check
         do {
         systemStart();
             //장바구니가 비어있는지 Check
-            if ( !(cart.getCart()== null || cart.getCart().isEmpty()) ){
+            if ( this.cart.getCart().size() != 0 ) {
                 //장바구니가 null이 아닐 경우 Cart 관련 동작을 보여줌
                 System.out.println("\n[ 주문 관리 ]");
                 System.out.println("4. 장바구니 확인 | 장바구니를 확인 후 주문합니다.");
@@ -42,7 +43,9 @@ public class CommerceSystem {
             System.out.println("0. 뒤로가기");
             choice = input.nextInt();
             //while문이 종료되지 않도록 입력값 임의의 int 값으로 변경
-            choice = 10;
+            if(choice==0){
+                choice = 10;
+            }
         } else if(choice != 0) {
             switch (choice) {
                 case 4: //장바구니 확인
@@ -136,7 +139,7 @@ public class CommerceSystem {
     public void checkChoice(Cart cart, Product product, int choice) {
         switch (choice) {
             case 1:
-                cart.setCart(cart.addCart(cart, product));
+                this.cart.addCart(product);
                 System.out.println(product.getName() + "이(가) 장바구니에 추가되었습니다.");
                 break;
             case 2:
