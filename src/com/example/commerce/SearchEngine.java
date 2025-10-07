@@ -1,13 +1,15 @@
 package com.example.commerce;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class SearchEngine {
-    private List<Product> sortedProducts;
+    public List<Product> sortedProducts;
     Category category;
 
     public SearchEngine(Category category) {
-        category.getCategoryList().stream().sorted().toList();
+        this.sortedProducts = category.getCategoryList();
+        this.sortedProducts.sort(Comparator.comparing(Product::getName));
     }
 
     public Product binarySearchRecursive(String productName, int left, int right) {
@@ -21,6 +23,7 @@ public class SearchEngine {
             }
             else { left = middle + 1; } // middle < target : middle 상품의 문자가 productName보다 사전상 앞 순서에 있으면 오른쪽으로 검색 범위 이동
         }
+        else {return null;}
         return binarySearchRecursive(productName, left, right);
     }
 
@@ -38,7 +41,6 @@ public class SearchEngine {
             }
             else { result = category.getCategoryList().get(middle); }
         }
-        if(result == null) { throw new NullPointerException("상품을 찾지 못했습니다."); }
         return result;
     }
 }
