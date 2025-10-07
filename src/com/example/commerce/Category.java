@@ -43,13 +43,13 @@ public class Category {
     }
     //주문 완료 후 변경된 재고수량을 갖고 있는 Cart를 Category의 Product에 반영하는 메서드
     // + 재고수량의 변경 사실을 출력
-    public void setProductQuantity(String productName, int countOrder) {
-        for(Product p : this.getCategoryList()) {
+    public void setProductQuantity(CartItem item) {
+        for(Product p : this.products) {
             int beforeQuantity = p.getQuantity();
-            if(p.getName().equals(productName)) {
-                p.setQuantity(p.getQuantity()-countOrder);
+            if(p.equals(item.getProduct())) {
+                p.setQuantity(p.getQuantity()-item.getCountOrder());
+                System.out.println(p.getName() + " 재고가 " + beforeQuantity + "개 → " + p.getQuantity() + "개로 업데이트 되었습니다.");
             }
-            System.out.println(p.getName() + " 재고가 " + beforeQuantity + "개 → " + p.getQuantity() + "개로 업데이트 되었습니다.");
         }
     }
     //각 카테고리에 새로운 상품을 추가하는 메서드

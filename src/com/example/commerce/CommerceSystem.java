@@ -1,6 +1,5 @@
 package com.example.commerce;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -61,9 +60,10 @@ public class CommerceSystem {
                             }
                             int rankNum = input.nextInt();
                             checkRank(total, rankNum);
-                            for(CartItem c : cart.getCart()) {
-                                index = 0;
-                                categories.get(index).setProductQuantity(c.getProduct().getName(), c.getCountOrder());
+                            for(index = 0; index < cart.getCart().size(); index++) {
+                                for(int i = 0; i < categories.size(); i++) {
+                                    categories.get(i).setProductQuantity(cart.getCart().get(index));
+                                }
                             }
                             cart.removeAllProduct();
                             break;

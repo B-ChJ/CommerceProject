@@ -39,6 +39,7 @@ public class Administrator {
             System.out.println("[ 관리자 모드 ]");
             System.out.println("1. 상품 추가\n2. 상품 수정\n3. 상품 삭제\n4. 전체 상품 현황\n0. 메인으로 돌아가기");
             choice = input.nextInt();
+            input.nextLine();
             switch (choice) {
                 case 0: break;
                 case 1:
@@ -70,12 +71,12 @@ public class Administrator {
             System.out.println(index + ". " + c.getCategoryName());
             index++;
         }
-        int choice = input.nextInt();
+        index = input.nextInt()-1;
         input.nextLine();
-        System.out.println("[ " + categories.get(choice).getCategoryName() + " 카테고리에 상품 추가 ]");
+        System.out.println("[ " + categories.get(index).getCategoryName() + " 카테고리에 상품 추가 ]");
         System.out.print("상품명을 입력해 주세요: ");
         String name = input.nextLine();
-        if (categories.get(choice).findProduct(name) != null) {
+        if (categories.get(index).findProduct(name) != null) {
             System.out.println("이미 같은 상품명이 등록되어 있습니다.");
             return null;
         }
@@ -107,11 +108,15 @@ public class Administrator {
     public void getUpdateProduct(List<Category> categories) {
         System.out.println("수정할 상품명을 입력해 주세요:");
         String name = input.nextLine();
-        Product p = null;
+        Product p = new Product("", "", 0, 0);
         for (Category c : categories) {
             p = c.findProduct(name);
-            System.out.println("현재 상품 정보: " + p.toString() + " | 재고: " + p.getQuantity() + "개");
+            if(p != null) {
+                index = categories.indexOf(c);
+                break;
+            }
         }
+        System.out.println("현재 상품 정보: " + p.toString() + " | 재고: " + p.getQuantity() + "개");
         int beforePrice = Objects.requireNonNull(p).getPrice();
         String beforeDescription = p.getDescription();
         int beforeQuantity = p.getQuantity();
@@ -140,7 +145,7 @@ public class Administrator {
             default:
                 throw new IllegalArgumentException("유효하지 않은 선택지입니다.");
         }
-        categories.get(categories.indexOf(p)).replaceProduct(p);
+        categories.get(index).replaceProduct(p);
     }
     //기등록된 상품을 카테고리에서 제거하는 메서드
     public void setRemoveProduct(Cart cart, List<Category> categories) {
@@ -150,7 +155,7 @@ public class Administrator {
             System.out.println(i + ". " + c.getCategoryName());
             i++;
         }
-        index = input.nextInt();
+        index = input.nextInt()-1;
         input.nextLine();
         Product p = null;
         System.out.println("삭제할 상품명을 입력해 주세요:");
