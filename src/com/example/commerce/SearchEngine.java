@@ -5,11 +5,12 @@ import java.util.List;
 
 public class SearchEngine {
     public List<Product> sortedProducts;
-    Category category;
+    public Category category;
 
     public SearchEngine(Category category) {
         this.sortedProducts = category.getCategoryList();
         this.sortedProducts.sort(Comparator.comparing(Product::getName));
+        this.category = category;
     }
 
     public Product binarySearchRecursive(String productName, int left, int right) {
