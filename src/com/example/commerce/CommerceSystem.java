@@ -80,7 +80,7 @@ public class CommerceSystem {
                     admin.adminMode(cart, categories);
                     break;
                 case 7:
-                    searchProduct();
+                    searchEngineLink();
                 default:
                     throw new IllegalArgumentException("유효하지 않은 카테고리 번호입니다.");
             }
@@ -91,7 +91,7 @@ public class CommerceSystem {
         System.out.println("입력을 종료합니다.");
     }
 
-    private void searchProduct() {
+    private void searchEngineLink() {
         System.out.println("=== 상품 검색 시스템 ===");
         System.out.println("검색어를 입력하세요: ");
         String productName = input.nextLine();
