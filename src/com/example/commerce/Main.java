@@ -32,13 +32,16 @@ public class Main {
         Scanner input = new Scanner(System.in);
         System.out.println("검색할 상품명을 입력해 주세요.");
         String productName = input.nextLine();
+        Product p = new Product("", "", 0, 0);
 
         for(Category c : categories) {
             SearchEngine searchEngine = new SearchEngine(c);
             int left = 0;
             int right = c.getCategoryList().size()-1;
-            System.out.println(searchEngine.binarySearchRecursive(productName, left, right).toString());
+            p = searchEngine.binarySearchRecursive(productName, left, right);
+            if(p != null) {break;}
         }
+        System.out.println(p.toString());
 
         CommerceSystem commerceSystem = new CommerceSystem();
         commerceSystem.start(categories); // 비즈니스 로직 시작
