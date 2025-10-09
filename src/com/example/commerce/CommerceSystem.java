@@ -79,6 +79,8 @@ public class CommerceSystem {
                 case 6:
                     admin.adminMode(cart, categories);
                     break;
+                case 7:
+                    searchProduct();
                 default:
                     throw new IllegalArgumentException("유효하지 않은 카테고리 번호입니다.");
             }
@@ -87,6 +89,15 @@ public class CommerceSystem {
         input.close();
 
         System.out.println("입력을 종료합니다.");
+    }
+
+    private void searchProduct() {
+        System.out.println("=== 상품 검색 시스템 ===");
+        System.out.println("검색어를 입력하세요: ");
+        String productName = input.nextLine();
+
+        System.out.println("[ " + productName + "으로 시작하는 상품" + " ]");
+
     }
 
     private void checkRank(int total, int rankNum) {
@@ -134,6 +145,7 @@ public class CommerceSystem {
             }
             System.out.println("0. 종료 | 프로그램 종료");
             System.out.println("6. 관리자 모드");
+            System.out.println("7. 상품 검색 성능 테스트");
     }
 
     public void checkChoice(Cart cart, Product product, int choice) {

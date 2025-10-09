@@ -21,6 +21,14 @@ public class Category {
     public List<Product> getCategoryList() {
         return products;
     }
+    public void removeNullProduct() {
+        for (Product p : products) {
+            if (p == null) {
+                products.remove(p);
+                break;
+            }
+        }
+    }
     //입력받은 상품명name과 일치하는 Product 정보를 반환하는 메서드
     public Product findProduct(String productName) {
         for (Product product : getCategoryList()) {
@@ -40,6 +48,9 @@ public class Category {
     //카테고리 이름을 반환하는 getter 메서드
     public String getCategoryName() {
         return categoryName;
+    }
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
     //주문 완료 후 변경된 재고수량을 갖고 있는 Cart를 Category의 Product에 반영하는 메서드
     // + 재고수량의 변경 사실을 출력
