@@ -30,7 +30,7 @@ public class SearchEngine {
 
     public Product binarySearchIterative(String productName) {
         int left = 0;
-        int right = productName.length() - 1;
+        int right = this.sortedProducts.size() - 1;
         Product result = null;
         while(left <= right) {
             int middle = (left + right) / 2;
@@ -40,7 +40,7 @@ public class SearchEngine {
             else if (category.getCategoryList().get(middle).getName().compareTo(productName) < 0) {
                 left = middle + 1;
             }
-            else { result = category.getCategoryList().get(middle); }
+            else { result = category.getCategoryList().get(middle); break;}
         }
         return result;
     }

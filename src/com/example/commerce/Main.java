@@ -38,7 +38,7 @@ public class Main {
             SearchEngine searchEngine = new SearchEngine(c);
             int left = 0;
             int right = c.getCategoryList().size()-1;
-            p = searchEngine.binarySearchRecursive(productName, left, right);
+            p = searchEngine.binarySearchIterative(productName);
             if(p != null) {break;}
         }
         System.out.println(p.toString());
