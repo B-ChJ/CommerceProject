@@ -30,9 +30,6 @@ public class Main {
         categories.add(clothes);
         categories.add(foods);
 
-        PerformanceTest performanceTest = new PerformanceTest();
-        performanceTest.compareSearchPerformance();
-
         CommerceSystem commerceSystem = new CommerceSystem();
         commerceSystem.start(categories); // 비즈니스 로직 시작
     }

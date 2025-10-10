@@ -1,5 +1,6 @@
 package com.example.commerce;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -81,6 +82,7 @@ public class CommerceSystem {
                     break;
                 case 7:
                     searchEngineLink();
+                    break;
                 default:
                     throw new IllegalArgumentException("유효하지 않은 카테고리 번호입니다.");
             }
@@ -92,12 +94,22 @@ public class CommerceSystem {
     }
 
     private void searchEngineLink() {
+        PerformanceTest performanceTest = new PerformanceTest();
+        performanceTest.compareSearchPerformance();
+
+        SearchEngine searchTest = new SearchEngine(categories);
+        input.nextLine();
         System.out.println("=== 상품 검색 시스템 ===");
-        System.out.println("검색어를 입력하세요: ");
+        System.out.print("검색어를 입력하세요: ");
         String productName = input.nextLine();
 
         System.out.println("[ " + productName + "으로 시작하는 상품" + " ]");
+        List<Product> listResult = searchTest.bruteforceSearch(productName);
 
+        for(Product product : listResult) {
+            System.out.println((listResult.indexOf(product)+1) + ". " + product.getName() + " | " + product.getPrice() + "원 | 재고: " + product.getQuantity() + "개");
+        }
+        System.out.println("총 " + listResult.size() + "개 상품");
     }
 
     private void checkRank(int total, int rankNum) {
