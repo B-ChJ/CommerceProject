@@ -8,13 +8,19 @@ public class CartAction {
     private int quantity;
     private Date timestamp;
 
-    public CartAction(ActionType type, Product product, int quantity, Date timestamp) {
+    public CartAction(ActionType type, Product product, int quantity) {
         this.type = type;
         this.product = product;
         this.quantity = quantity;
-        this.timestamp = timestamp;
+        this.timestamp = new Date();
     }
 
+    public ActionType getActionType() {
+        return type;
+    }
+    public void setActionType(ActionType type) {
+        this.type = type;
+    }
     public Product getProduct() {
         return product;
     }

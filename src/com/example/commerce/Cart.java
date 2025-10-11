@@ -6,6 +6,7 @@ import java.util.List;
 public class Cart {
     //1. 속성
     private List<CartItem> cart = new ArrayList<>();
+    private CartHistory history = new CartHistory();
     //2. 생성자
     //3. 기능
     //장바구니에 Product 정보를 등록하는 메서드
@@ -16,11 +17,13 @@ public class Cart {
                 int index = findIndex(cartItem);
                 item.setCountOrder(cartItem.getCountOrder() + 1);
                 this.cart.set(index, item); // CartItem의 주문수량 countOrder를 기존 값에 1을 더한 값으로 setting
+                history.addAction(new CartAction(ActionType.ADD, item.getProduct(), item.getCountOrder()));
                 return;
             }
         }
         item.setCountOrder(1);
         this.cart.add(item);
+        history.addAction(new CartAction(ActionType.ADD, product,1));
     }
     //장바구니의 모든 상품과 총 금액을 출력하는 메서드
     public int printCart() {
@@ -44,6 +47,8 @@ public class Cart {
     public void setCart(Cart carts) {
         this.cart = carts.getCart();
     }
+
+    //장바구니의 특정 상품 정보CartItem를 가져오는 메서드
     public CartItem getCartItem(Product product) {
         for (CartItem cartItem : cart) {
             if (cartItem.getProduct().getName().equals(product.getName())) {
@@ -60,7 +65,10 @@ public class Cart {
     //장바구니에서 특정 상품을 삭제하는 메서드
     public void removeCartItem(CartItem product) {
         this.cart.remove(product);
+
+        history.addAction(new CartAction(ActionType.REMOVE, product.getProduct(), 0));
     }
+    //장바구니의 특정 상품의 위치를 찾는 메서드
     public int findIndex(CartItem item) {
         int index = 0;
         for (CartItem cartItem : this.cart) {
@@ -70,5 +78,13 @@ public class Cart {
             }
         }
         return -1;
+    }
+    //Undo 기능
+    public boolean undo() {
+        return history.undo(this);
+    }
+    //Redo 기능
+    public boolean redo() {
+        return history.redo(this);
     }
 }

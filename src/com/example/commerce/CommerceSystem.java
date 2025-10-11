@@ -75,7 +75,9 @@ public class CommerceSystem {
                     }
                     break;
                 case 5:
-                    cart.removeAllProduct();
+                    cart.printCart();
+                    System.out.println("1. 장바구니 전체 삭제     2. 선택한 상품 주문수정");
+                    updateCartInfo(cart, input.nextInt());
                     break;
                 case 6:
                     admin.adminMode(cart, categories);
@@ -93,9 +95,42 @@ public class CommerceSystem {
         System.out.println("입력을 종료합니다.");
     }
 
+    public void updateCartInfo(Cart cart, int choice) {
+        CartItem item;
+        Product p;
+        SearchEngine searchProduct = new SearchEngine(categories);
+
+        switch(choice) {
+            case 1:
+                cart.removeAllProduct();
+                System.out.println("장바구니의 상품을 전체 삭제하였습니다.");
+                break;
+            case 2:
+                input.nextLine();
+                System.out.println("삭제할 상품명을 입력해 주세요: ");
+                String productName = input.nextLine();
+                p = searchProduct.binarySearchIterative(productName);
+                item = cart.getCartItem(p);
+                cart.removeCartItem(item);
+                System.out.println(p.getName() + "이(가) 장바구니에서 삭제되었습니다.\n1. 삭제한 상품 되돌리기   2. 메인으로 돌아가기");
+                if(input.nextLine().equals("1")){
+                    cart.undo();
+                }
+                break;
+            case 3:
+                System.out.println("수정할 상품명을 입력해 주세요: ");
+                p = searchProduct.binarySearchIterative(input.nextLine());
+                System.out.println("변경할 주문 수량을 입력해 주세요: ");
+                cart.getCartItem(p).setCountOrder(input.nextInt());
+            default:
+                System.out.println("입력하신 번호는 없는 선택지입니다.");
+        }
+    }
+
     private void searchEngineLink() {
-        PerformanceTest performanceTest = new PerformanceTest();
-        performanceTest.compareSearchPerformance();
+        if(choice == 7) {
+            testPerformance();
+        }
 
         SearchEngine searchTest = new SearchEngine(categories);
         input.nextLine();
@@ -110,6 +145,10 @@ public class CommerceSystem {
             System.out.println((listResult.indexOf(product)+1) + ". " + product.getName() + " | " + product.getPrice() + "원 | 재고: " + product.getQuantity() + "개");
         }
         System.out.println("총 " + listResult.size() + "개 상품");
+    }
+    public void testPerformance() {
+        PerformanceTest performanceTest = new PerformanceTest();
+        performanceTest.compareSearchPerformance();
     }
 
     private void checkRank(int total, int rankNum) {
@@ -171,6 +210,7 @@ public class CommerceSystem {
             default:
                 throw new IllegalArgumentException("1 또는 2를 입력해 주세요.");
         }
+
     }
 
     public void choiceCategory(int number, List<Category> categories) {
