@@ -33,7 +33,7 @@ public class CommerceSystem {
                 //장바구니가 null이 아닐 경우 Cart 관련 동작을 보여줌
                 System.out.println("\n[ 주문 관리 ]");
                 System.out.println("4. 장바구니 확인 | 장바구니를 확인 후 주문합니다.");
-                System.out.println("5. 주문 취소 | 진행 중인 주문을 취소합니다.");
+                System.out.println("5. 주문 취소 | 진행 중인 주문을 전체 취소합니다.");
             }
         // (메인페이지) 분기점 1. 카테고리 내 상품 조회 | 2. 장바구니 | 3. 관리자 모드 | 0. 프로그램 종료
         choice = input.nextInt(); // 메뉴 선택지 번호 입력
@@ -49,35 +49,20 @@ public class CommerceSystem {
         } else if(choice != 0) {
             switch (choice) {
                 case 4: //장바구니 확인
-                    System.out.println("아래와 같이 주문하시겠습니까?");
+                    System.out.println("=== 장바구니 시스템 2.0 ===");
                     int total = cart.printCart();
-                    System.out.println("1. 주문 확정     2. 메인으로 돌아가기");
+                    System.out.println("1. 상품 추가  |  2. 상품 삭제\n3. Undo  |  4. Redo\n5. 장바구니 히스토리  |  6. 주문하기\n0. 메인으로");
                     choice = input.nextInt();
-                    switch (choice) {
-                        case 1:
-                            System.out.println("고객 등급을 입력해 주세요: ");
-                            for (CustomerRank rank : CustomerRank.values()) {
-                                System.out.println((rank.ordinal() + 1) + rank.toString());
-                            }
-                            int rankNum = input.nextInt();
-                            checkRank(total, rankNum);
-                            for(index = 0; index < cart.getCart().size(); index++) {
-                                for(int i = 0; i < categories.size(); i++) {
-                                    categories.get(i).setProductQuantity(cart.getCart().get(index));
-                                }
-                            }
-                            cart.removeAllProduct();
-                            break;
-                        case 2:
-                            break;
-                        default:
-                            throw new IllegalArgumentException("1 또는 2를 입력해 주세요.");
-                    }
+                    startCartSystem(choice, categories, total);
                     break;
                 case 5:
                     cart.printCart();
-                    System.out.println("1. 장바구니 전체 삭제     2. 선택한 상품 삭제     3. 선택한 상품 주문수량 변경");
-                    updateCartInfo(cart, input.nextInt());
+                    System.out.println("정말 전체 상품을 삭제하시겠습니까?\n1. 예     2. 아니오");
+                    choice = input.nextInt();
+                    if(choice==1) {
+                        cart.removeAllProduct();
+                        System.out.println("장바구니가 비었습니다.");
+                    }
                     break;
                 case 6:
                     admin.adminMode(cart, categories);
@@ -102,22 +87,15 @@ public class CommerceSystem {
 
         switch(choice) {
             case 1:
-                cart.removeAllProduct();
-                System.out.println("장바구니의 상품을 전체 삭제하였습니다.");
-                break;
-            case 2:
                 input.nextLine();
                 System.out.println("삭제할 상품명을 입력해 주세요: ");
                 String productName = input.nextLine();
                 p = searchProduct.binarySearchIterative(productName);
                 item = cart.getCartItem(p);
+                System.out.println(p.getName() + " " + item.getCountOrder() + "개가 장바구니에서 삭제되었습니다.");
                 cart.removeCartItem(item);
-                System.out.println(p.getName() + "이(가) 장바구니에서 삭제되었습니다.\n1. 삭제한 상품 되돌리기   2. 메인으로 돌아가기");
-                if(input.nextLine().equals("1")){
-                    cart.undo();
-                }
                 break;
-            case 3:
+            case 2:
                 System.out.println("수정할 상품명을 입력해 주세요: ");
                 p = searchProduct.binarySearchIterative(input.nextLine());
                 System.out.println("변경할 주문 수량을 입력해 주세요: ");
@@ -258,5 +236,49 @@ public class CommerceSystem {
         }
         choiceProduct = tmp.get(input.nextInt()-1);
         return choiceProduct;
+    }
+    public void startCartSystem(int choice, List<Category> categories, int total) {
+        switch (choice) {
+            case 1:
+                int index = 1;
+                for (Category c : categories) { //카테고리 번호 + 이름 출력
+                    System.out.println(index + ". " + c.getCategoryName());
+                    index++;
+                }
+                choiceCategory(input.nextInt(), categories);
+                break;
+            case 2:
+                System.out.println("[ 장바구니 수정 ]\n1. 상품명으로 삭제하기    2. 주문 수량 수정하기");
+                choice = input.nextInt();
+                updateCartInfo(cart, choice);
+                break;
+            case 3:
+                cart.undo();
+                break;
+            case 4:
+                cart.redo();
+                break;
+            case 5:
+                cart.printHistory();
+                break;
+            case 6:
+                System.out.println("고객 등급을 입력해 주세요: ");
+                for (CustomerRank rank : CustomerRank.values()) {
+                    System.out.println((rank.ordinal() + 1) + rank.toString());
+                }
+                int rankNum = input.nextInt();
+                checkRank(total, rankNum);
+                for(index = 0; index < cart.getCart().size(); index++) {
+                    for(int i = 0; i < categories.size(); i++) {
+                        categories.get(i).setProductQuantity(cart.getCart().get(index));
+                    }
+                }
+                cart.removeAllProduct();
+                break;
+            case 0:
+                break;
+            default:
+                throw new IllegalArgumentException("1 또는 2를 입력해 주세요.");
+        }
     }
 }

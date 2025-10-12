@@ -48,4 +48,8 @@ public class CartAction {
         this.timestamp = timestamp;
     }
 
+    @Override
+    public String toString() {
+        return (this.product.toString() +  " " + this.type.toString() + " | " + this.quantity + " | " + this.beforeQuantity + " | " + this.timestamp.toString());
+    }
 }

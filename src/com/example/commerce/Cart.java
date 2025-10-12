@@ -9,6 +9,7 @@ public class Cart {
     private CartHistory history = new CartHistory();
     //2. 생성자
     //3. 기능
+
     //장바구니에 Product 정보를 등록하는 메서드
     public void addCart(Product product) {
         CartItem item = new CartItem(product, 0);
@@ -88,5 +89,9 @@ public class Cart {
     //Redo 기능
     public boolean redo() {
         return history.redo(this);
+    }
+
+    public void printHistory() {
+        history.printHistory();
     }
 }

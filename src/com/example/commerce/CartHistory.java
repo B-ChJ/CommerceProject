@@ -20,6 +20,7 @@ public class CartHistory {
         redoStack.push(action);
 
         applyUndoAction(cart, action);
+        System.out.println("Undo 실행: " + action.getProduct().getName() + " " + action.getQuantity() + "개 삭제를 취소했습니다.");
         return true;
     }
 
@@ -73,5 +74,11 @@ public class CartHistory {
 
         applyRedoAction(cart, action);
         return true;
+    }
+
+    public void printHistory() {
+        for(CartAction action : undoStack) {
+            System.out.println(action);
+        }
     }
 }
