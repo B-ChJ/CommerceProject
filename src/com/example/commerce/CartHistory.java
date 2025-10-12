@@ -12,7 +12,7 @@ public class CartHistory {
     }
 
     public boolean undo(Cart cart) {
-        if(undoStack.isEmpty()) {
+        if (undoStack.isEmpty()) {
             System.out.println("추가한 상품이 없습니다.");
             return false;
         }
@@ -25,32 +25,47 @@ public class CartHistory {
 
     public void applyUndoAction(Cart cart, CartAction action) {
         CartItem item = cart.getCartItem(action.getProduct());
-        switch(action.getActionType()) {
+        switch (action.getActionType()) {
             case ADD:
                 cart.removeCartItem(item);
                 break;
             case REMOVE:
                 cart.addCart(action.getProduct());
+                break;
+            case UPDATE:
+                if (action.getBeforeQuantity() == 0) {
+                    cart.removeCartItem(item);
+                } else {
+                    item.setCountOrder(action.getBeforeQuantity());
+                    cart.getCart().set(cart.findIndex(item), item);
+                }
                 break;
         }
     }
 
     public void applyRedoAction(Cart cart, CartAction action) {
         CartItem item = cart.getCartItem(action.getProduct());
-        switch(action.getActionType()) {
+        switch (action.getActionType()) {
             case ADD:
                 cart.addCart(action.getProduct());
                 break;
             case REMOVE:
                 cart.removeCartItem(item);
                 break;
-
+            case UPDATE:
+                if (action.getQuantity() == 0) {
+                    cart.removeCartItem(item);
+                } else {
+                    item.setCountOrder(action.getQuantity());
+                    cart.getCart().set(cart.findIndex(item), item);
+                }
+                break;
         }
     }
 
     public boolean redo(Cart cart) {
         CartAction action = redoStack.pop();
-        if(redoStack.isEmpty()) {
+        if (redoStack.isEmpty()) {
             System.out.println("되돌릴 동작이 없습니다");
             return false;
         }

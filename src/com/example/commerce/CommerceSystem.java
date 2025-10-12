@@ -76,7 +76,7 @@ public class CommerceSystem {
                     break;
                 case 5:
                     cart.printCart();
-                    System.out.println("1. 장바구니 전체 삭제     2. 선택한 상품 주문수정");
+                    System.out.println("1. 장바구니 전체 삭제     2. 선택한 상품 삭제     3. 선택한 상품 주문수량 변경");
                     updateCartInfo(cart, input.nextInt());
                     break;
                 case 6:

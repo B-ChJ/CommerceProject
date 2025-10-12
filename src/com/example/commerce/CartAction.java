@@ -6,12 +6,14 @@ public class CartAction {
     private ActionType type; // ADD, REMOVE
     private Product product;
     private int quantity;
+    private int beforeQuantity;
     private Date timestamp;
 
-    public CartAction(ActionType type, Product product, int quantity) {
+    public CartAction(ActionType type, Product product, int quantity, int beforeQuantity) {
         this.type = type;
         this.product = product;
         this.quantity = quantity;
+        this.beforeQuantity = beforeQuantity;
         this.timestamp = new Date();
     }
 
@@ -32,6 +34,12 @@ public class CartAction {
     }
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+    public int getBeforeQuantity() {
+        return beforeQuantity;
+    }
+    public void setBeforeQuantity(int beforeQuantity) {
+        this.beforeQuantity = beforeQuantity;
     }
     public Date getTimestamp() {
         return timestamp;

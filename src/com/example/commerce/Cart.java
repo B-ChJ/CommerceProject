@@ -15,15 +15,16 @@ public class Cart {
         for (CartItem cartItem : this.cart) {
             if (cartItem.getProduct().equals(item.getProduct())) { // CartItem의 상품과 Product의 상품이 같으면(=상품이 이미 장바구니에 있으면)
                 int index = findIndex(cartItem);
+                int beforeQuantity = cartItem.getCountOrder();
                 item.setCountOrder(cartItem.getCountOrder() + 1);
                 this.cart.set(index, item); // CartItem의 주문수량 countOrder를 기존 값에 1을 더한 값으로 setting
-                history.addAction(new CartAction(ActionType.ADD, item.getProduct(), item.getCountOrder()));
+                history.addAction(new CartAction(ActionType.ADD, item.getProduct(), item.getCountOrder(), beforeQuantity));
                 return;
             }
         }
         item.setCountOrder(1);
         this.cart.add(item);
-        history.addAction(new CartAction(ActionType.ADD, product,1));
+        history.addAction(new CartAction(ActionType.ADD, item.getProduct(), item.getCountOrder(), 0));
     }
     //장바구니의 모든 상품과 총 금액을 출력하는 메서드
     public int printCart() {
@@ -64,9 +65,10 @@ public class Cart {
     }
     //장바구니에서 특정 상품을 삭제하는 메서드
     public void removeCartItem(CartItem product) {
+        int beforeQuantity = product.getCountOrder();
         this.cart.remove(product);
 
-        history.addAction(new CartAction(ActionType.REMOVE, product.getProduct(), 0));
+        history.addAction(new CartAction(ActionType.REMOVE, product.getProduct(), 0, beforeQuantity));
     }
     //장바구니의 특정 상품의 위치를 찾는 메서드
     public int findIndex(CartItem item) {
