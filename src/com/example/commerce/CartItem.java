@@ -29,4 +29,9 @@ public class CartItem {
     public int getCartItemPrice() {
         return product.getPrice()*countOrder;
     }
+
+    @Override
+    public String toString() {
+        return product.toString() + " | " + countOrder + "개";
+    }
 }

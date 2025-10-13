@@ -14,6 +14,8 @@ public class CommerceSystem {
     Product choiceProduct;
     int index, choice;
     public Cart cart;
+    public Customer customer;
+    OrderQueue orderQueue;
 
     //2. 생성자
     //3. 기능
@@ -25,6 +27,12 @@ public class CommerceSystem {
         setCategories(category); // 카테고리 세팅
         this.cart = new Cart();
         Administrator admin = new Administrator();
+
+        System.out.println("사용자 성함을 입력해 주세요:");
+        this.customer.setCustomerName(input.nextLine());
+        System.out.println("사용자 이메일을 입력해 주세요:");
+        this.customer.setCustomerEmail(input.nextLine());
+
         //do-while 반복문으로 일단 상품 목록 1회 출력 후 조건문 check
         do {
         systemStart();
@@ -34,6 +42,7 @@ public class CommerceSystem {
                 System.out.println("\n[ 주문 관리 ]");
                 System.out.println("4. 장바구니 확인 | 장바구니를 확인 후 주문합니다.");
                 System.out.println("5. 주문 취소 | 진행 중인 주문을 전체 취소합니다.");
+                System.out.println("8. 주문 대기열 확인하기");
             }
         // (메인페이지) 분기점 1. 카테고리 내 상품 조회 | 2. 장바구니 | 3. 관리자 모드 | 0. 프로그램 종료
         choice = input.nextInt(); // 메뉴 선택지 번호 입력
@@ -69,6 +78,9 @@ public class CommerceSystem {
                     break;
                 case 7:
                     searchEngineLink();
+                    break;
+                case 8:
+                    this.orderQueue.printOrderStatus();
                     break;
                 default:
                     throw new IllegalArgumentException("유효하지 않은 카테고리 번호입니다.");
@@ -157,6 +169,7 @@ public class CommerceSystem {
             default:
                 break;
         }
+
         System.out.println("주문이 완료되었습니다!");
         System.out.println("할인 전 금액: " + total + "원");
         System.out.println(rank + "등급 할인(" + discount * 100 + "%): -" + (total - discountTotal) + "원");
@@ -262,18 +275,21 @@ public class CommerceSystem {
                 cart.printHistory();
                 break;
             case 6:
+                orderQueue.addOrder(new Order(cart, customer));
                 System.out.println("고객 등급을 입력해 주세요: ");
                 for (CustomerRank rank : CustomerRank.values()) {
                     System.out.println((rank.ordinal() + 1) + rank.toString());
                 }
                 int rankNum = input.nextInt();
                 checkRank(total, rankNum);
+                orderQueue.processNextOrder();
                 for(index = 0; index < cart.getCart().size(); index++) {
                     for(int i = 0; i < categories.size(); i++) {
                         categories.get(i).setProductQuantity(cart.getCart().get(index));
                     }
                 }
                 cart.removeAllProduct();
+                orderQueue.completeOrder();
                 break;
             case 0:
                 break;
