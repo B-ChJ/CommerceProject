@@ -14,7 +14,8 @@ public class CommerceSystem {
     Product choiceProduct;
     int index, choice;
     public Cart cart;
-    OrderQueue orderQueue;
+    public OrderQueue orderQueue = new OrderQueue();
+    public Customer customer;
 
     //2. 생성자
     //3. 기능
@@ -26,12 +27,7 @@ public class CommerceSystem {
         setCategories(category); // 카테고리 세팅
         this.cart = new Cart();
         Administrator admin = new Administrator();
-
-        System.out.println("사용자 성함을 입력해 주세요:");
-        String customerName = input.nextLine();
-        System.out.println("사용자 이메일을 입력해 주세요:");
-        String customerEmail = input.nextLine();
-        Customer customer = new Customer(customerName, customerEmail);
+        this.orderQueue.addOrder(new Order(cart, customer));
 
         //do-while 반복문으로 일단 상품 목록 1회 출력 후 조건문 check
         do {
@@ -62,7 +58,7 @@ public class CommerceSystem {
                     int total = cart.printCart();
                     System.out.println("1. 상품 추가  |  2. 상품 삭제\n3. Undo  |  4. Redo\n5. 장바구니 히스토리  |  6. 주문하기\n0. 메인으로");
                     choice = input.nextInt();
-                    startCartSystem(choice, categories, total, customer);
+                    startCartSystem(choice, categories, total);
                     break;
                 case 5:
                     cart.printCart();
@@ -80,6 +76,10 @@ public class CommerceSystem {
                     searchEngineLink();
                     break;
                 case 8:
+                    if(this.orderQueue==null) {
+                        System.out.println("아직 대기 중인 주문이 없습니다.");
+                        break;
+                    }
                     this.orderQueue.printOrderStatus();
                     break;
                 default:
@@ -178,6 +178,13 @@ public class CommerceSystem {
 
     // 메인 페이지 내용을 출력하는 메서드
     public void systemStart() {
+        if(customer == null) {
+            System.out.println("사용자 성함을 입력해 주세요:");
+            String customerName = input.nextLine();
+            System.out.println("사용자 이메일을 입력해 주세요:");
+            String customerEmail = input.nextLine();
+            this.customer = new Customer(customerName, customerEmail);
+        }
             //메인에서 조회할 카테고리를 고르도록 카테고리 이름을 출력
             System.out.println("[ 실시간 커머스 플랫폼 메인 ]");
             index = 1;
@@ -250,7 +257,7 @@ public class CommerceSystem {
         choiceProduct = tmp.get(input.nextInt()-1);
         return choiceProduct;
     }
-    public void startCartSystem(int choice, List<Category> categories, int total, Customer customer) {
+    public void startCartSystem(int choice, List<Category> categories, int total) {
         switch (choice) {
             case 1:
                 int index = 1;
@@ -275,23 +282,23 @@ public class CommerceSystem {
                 cart.printHistory();
                 break;
             case 6:
-                orderQueue.addOrder(new Order(cart, customer));
                 System.out.println("고객 등급을 입력해 주세요: ");
                 for (CustomerRank rank : CustomerRank.values()) {
                     System.out.println((rank.ordinal() + 1) + rank.toString());
                 }
                 int rankNum = input.nextInt();
                 checkRank(total, rankNum);
-                orderQueue.processNextOrder();
+                orderQueue.processNextOrder(); // Queue 주문 처리
                 for(index = 0; index < cart.getCart().size(); index++) {
                     for(int i = 0; i < categories.size(); i++) {
                         categories.get(i).setProductQuantity(cart.getCart().get(index));
                     }
                 }
                 cart.removeAllProduct();
-                orderQueue.completeOrder();
+                orderQueue.completeOrder(); // Queue 완료된 주문
                 break;
             case 0:
+                this.choice = 10; // start()의 do-while 반복문이 끝나지 않도록 임의의 choice를 대입
                 break;
             default:
                 throw new IllegalArgumentException("1 또는 2를 입력해 주세요.");

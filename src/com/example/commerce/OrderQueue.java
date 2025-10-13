@@ -36,6 +36,8 @@ public class OrderQueue {
             return;
         }
         Order completeOrder = processingQueue.poll();
+        System.out.println(completeOrder.getCustomerName() + "님의 주문이 완료되었습니다.");
+        this.completeOrderCount++;
         if(!waitingQueue.isEmpty() && (processingQueue.size() < maxProcessingCount)) {
             processNextOrder();
         }

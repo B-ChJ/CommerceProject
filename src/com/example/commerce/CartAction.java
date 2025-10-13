@@ -50,6 +50,6 @@ public class CartAction {
 
     @Override
     public String toString() {
-        return (this.product.toString() +  " " + this.type.toString() + " | " + this.quantity + " | " + this.beforeQuantity + " | " + this.timestamp.toString());
+        return (this.product.toString() +  " | " + this.type.toString() + " | 현재 주문수량 " + this.quantity + "개 | 수정 전 주문 수량 " + this.beforeQuantity + " | " + this.timestamp.toString());
     }
 }
