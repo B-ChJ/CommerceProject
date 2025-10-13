@@ -14,7 +14,6 @@ public class CommerceSystem {
     Product choiceProduct;
     int index, choice;
     public Cart cart;
-    public Customer customer;
     OrderQueue orderQueue;
 
     //2. 생성자
@@ -29,9 +28,10 @@ public class CommerceSystem {
         Administrator admin = new Administrator();
 
         System.out.println("사용자 성함을 입력해 주세요:");
-        this.customer.setCustomerName(input.nextLine());
+        String customerName = input.nextLine();
         System.out.println("사용자 이메일을 입력해 주세요:");
-        this.customer.setCustomerEmail(input.nextLine());
+        String customerEmail = input.nextLine();
+        Customer customer = new Customer(customerName, customerEmail);
 
         //do-while 반복문으로 일단 상품 목록 1회 출력 후 조건문 check
         do {
@@ -62,7 +62,7 @@ public class CommerceSystem {
                     int total = cart.printCart();
                     System.out.println("1. 상품 추가  |  2. 상품 삭제\n3. Undo  |  4. Redo\n5. 장바구니 히스토리  |  6. 주문하기\n0. 메인으로");
                     choice = input.nextInt();
-                    startCartSystem(choice, categories, total);
+                    startCartSystem(choice, categories, total, customer);
                     break;
                 case 5:
                     cart.printCart();
@@ -250,7 +250,7 @@ public class CommerceSystem {
         choiceProduct = tmp.get(input.nextInt()-1);
         return choiceProduct;
     }
-    public void startCartSystem(int choice, List<Category> categories, int total) {
+    public void startCartSystem(int choice, List<Category> categories, int total, Customer customer) {
         switch (choice) {
             case 1:
                 int index = 1;

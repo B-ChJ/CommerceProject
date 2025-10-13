@@ -7,10 +7,9 @@ public class Customer {
     private String customerEmail;
     private CustomerRank customerRank;
     //2. 생성자
-    Customer(String customerName, String customerEmail, CustomerRank customerRank) {
+    Customer(String customerName, String customerEmail) {
         this.customerName = customerName;
         this.customerEmail = customerEmail;
-        this.customerRank = customerRank;
     }
     //3. 기능
     public String getCustomerName() {

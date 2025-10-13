@@ -20,7 +20,8 @@ public class CartHistory {
         redoStack.push(action);
 
         applyUndoAction(cart, action);
-        System.out.println("Undo 실행: " + action.getProduct().getName() + " " + action.getQuantity() + "개 삭제를 취소했습니다.");
+        String actionType = action.getActionType().equals(ActionType.ADD) ? "추가" : "삭제";
+        System.out.println("Undo 실행: " + action.getProduct().getName() + " " + action.getQuantity() + "개 " + actionType + "를 취소했습니다.");
         return true;
     }
 
